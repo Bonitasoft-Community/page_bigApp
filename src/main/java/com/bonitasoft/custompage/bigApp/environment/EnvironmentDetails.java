@@ -19,7 +19,7 @@ public class EnvironmentDetails {
         PlatformMonitoringAPI platformMonitoringAPI = TenantAPIAccessor.getPlatformMonitoringAPI(session);
 
         // Prepare the data that will be displayed on the page
-        result.put("operatingSystemInfos", TenantAPIAccessor.getPlatformMonitoringAPI(session).getOSName() + " ******** " + TenantAPIAccessor.getPlatformMonitoringAPI(session).getOSVersion());
+        result.put("operatingSystemInfos", TenantAPIAccessor.getPlatformMonitoringAPI(session).getOSName() + " - " + TenantAPIAccessor.getPlatformMonitoringAPI(session).getOSVersion());
         result.put("JavaMachine", TenantAPIAccessor.getPlatformMonitoringAPI(session).getJvmVersion());
         result.put("availableProcessors", TenantAPIAccessor.getPlatformMonitoringAPI(session).getAvailableProcessors());
 
