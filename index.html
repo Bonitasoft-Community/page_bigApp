@@ -1,0 +1,156 @@
+<!doctype html>
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>BigApp</title>
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width">
+<link rel="stylesheet" href="style/animate.css" />
+<link rel="stylesheet" href="style/bootstrap.min.css">
+<link rel="stylesheet" href="style/main.css">
+<link rel="stylesheet" href="style/style.css">
+
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript" src="https://www.google.com/uds/?file=visualization&amp;v=1&amp;hl=fr&amp;packages=corechart&amp;async=2"></script>
+<link type="text/css" href="https://www.google.com/uds/api/visualization/1.0/ff67c3772da186a412ae3231c32409e9/ui+fr.css" rel="stylesheet">
+<script type="text/javascript" src="https://www.google.com/uds/api/visualization/1.0/ff67c3772da186a412ae3231c32409e9/format+fr,default+fr,ui+fr,corechart+fr.I.js"></script>
+<link href="https://ajax.googleapis.com/ajax/static/modules/gviz/1.0/core/tooltip.css" rel="stylesheet" type="text/css">
+
+<style>
+.Loading {
+	display: inline-block;
+	vertical-align: middle;
+	background-position: center;
+	background: no-repeat;
+	background-image:
+		url('data:image/gif;base64,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');
+	width: 20px;
+	height: 20px;
+	margin-top: 6px;
+	margin-right: 7px;
+}
+
+.AutocompleteDropDown {
+	background-color: #fcf8e3;
+}
+</style>
+
+</head>
+<body ng-app="bigapp">
+
+
+	<!--  Page Directory: @_PAGEDIRECTORY_@ -->
+
+
+
+
+	<div class="col-lg-12" class="bs-component" ng-controller="BigAppControler as ctrl">
+		<center>
+			<table>
+				<tr>
+					<td><h1>BigApp</h1></td>
+					<td rowspan="2"><img src="img/bigapp.jpg?" width="150" heigth="150" /></td>
+				</tr>
+				<tr>
+					<td style="font-size: 0.8em"><a href="" ng-click="bigappctrl.showhistory( ! bigappctrl.isshowhistory )">V2.2</a></td>
+				</tr>
+				<tr>
+					<td>
+						<div id="showHistory" ng-show="bigappctrl.isshowhistory" style="border-width: 2px; border-style: ridge; border-color: blue">
+							1.0 First version<br> 1.1 New request to detect the missing timer<br> 2.0 Execute Groovy script 2.2 Add SQL parameters in Groovy Script
+						</div>
+					</td>
+				</tr>
+			</table>
+		</center>
+
+		<!--<ul class="nav nav-tabs" ng-class="{'nav-stacked': vertical, 'nav-justified': justified}" ng-transclude>
+
+			<li ng-class="{active: active, disabled: false" id="form-tab" heading="All" active="true" title="Environment" select="ctrl.navbaractiv == 'environment'" class="{{ctrl.getNavClass('environment')}}"
+				style=""><a ng-click="ctrl.navbaractiv = 'environment';" tab-heading-transclude="" class="ng-binding">Environment</a></li>
+		</ul>-->
+
+		<br/>
+
+		<!--  ************************************************************  -->
+		<!--  Tab Environment		 										-->
+		<!--  ************************************************************  -->
+		<div class="col-lg-12" ng-show="ctrl.navbaractiv == 'environment'">
+
+			<div class="col-lg-4">
+				<div class="panel panel-success">
+					<div class="panel-heading">Environment</div>
+					<div class="panel-body">
+						<table>
+							<tr>
+								<th>Operating system</th>
+								<td>{{ctrl.environment.operatingSystemInfos}}</td>
+							</tr>
+							<tr>
+								<th>Java Machine & version</th>
+								<td>{{ctrl.environment.JavaMachine}}</td>
+							</tr>
+							<tr>
+								<th>Available processors</th>
+								<td>{{ctrl.environment.availableProcessors}}</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4">
+				<div class="panel panel-success">
+					<div class="panel-heading">Logs</div>
+					<div class="panel-body">
+						<input type="checkbox" name="vehicle1" value="Bike"> I have a bike<br> <input type="checkbox" name="vehicle2" value="Car"> I have a car<br> <input type="checkbox"
+							name="vehicle3" value="Boat"> I have a boat<br>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-4">
+				<div class="panel panel-success">
+					<div class="panel-heading">Setup Configuration</div>
+					<div class="panel-body">
+						<button class="btn btn-primary">Pull</button>
+					</div>
+				</div>
+			</div>
+
+			<center>
+				<button class="btn btn-primary">Collect and get a ZIP file</button>
+			</center>
+		</div>
+		<!--  end tab environment -->
+	</div>
+
+
+
+	<!-- Third party dependencies -->
+
+
+	<script src="3rd-party/jquery.min.js"></script>
+
+	<script src="3rd-party/angular.min.js"></script>
+
+	<script src="3rd-party/angular-resource.min.js"></script>
+	<script src="3rd-party/angular-cookies.min.js"></script>
+
+	<script src="3rd-party/bootstrap/js/bootstrap.min.js"></script>
+	<script src="3rd-party/angular-bootstrap-tpls.min.js"></script>
+	<script src="3rd-party/angular-sanitize.min.js"></script>
+
+	<script src="twotruckmonitor.js?v=@_CURRENTTIMEMILIS_@"></script>
+
+	<!-- Application dependencies -->
+	</center>
+</body>
+</html>
