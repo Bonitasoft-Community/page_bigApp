@@ -1,3 +1,4 @@
+import com.bonitasoft.engine.log.LogSearchDescriptor
 import groovy.lang.Binding
 
 import java.util.List
@@ -83,6 +84,7 @@ import com.bonitasoft.engine.api.PlatformMonitoringAPI;
 
 import com.bonitasoft.custompage.bigApp.groovymaintenance.GroovyMaintenance;
 import com.bonitasoft.custompage.bigApp.environment.EnvironmentDetails;
+import com.bonitasoft.custompage.bigApp.logs.Logs
 
 
 public class Actions {
@@ -227,7 +229,9 @@ public class Actions {
             CommandAPI commandAPI = TenantAPIAccessor.getCommandAPI(session);
             File pageDirectory = pageResourceProvider.getPageDirectory();
 
-            if("getEnvironment".equals(action)) {
+            if("getLogs".equals(action)) {
+                actionAnswer.setResponse(Logs.getLogs());
+            } else if("getEnvironment".equals(action)) {
                 actionAnswer.setResponse(EnvironmentDetails.getEnvironment(session));
             } else if ("getmissingtimer".equals(action)) {
                 actionAnswer.setResponse(Timer.getMissingTimers(false, processAPI));

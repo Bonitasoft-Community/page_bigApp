@@ -71,6 +71,36 @@ appCommand.controller('BigAppControler',
     // Run the initialization environment when the page is displayed
     this.getEnvironment();
 
+
+    	// ------------------------------------------------------------------------------
+        //    Logs
+        // ------------------------------------------------------------------------------
+        this.navbaractiv='logs';
+        this.logs = {};
+        this.getLogs= function() {
+
+            		var self=this;
+            		self.inprogress=true;
+
+            		$http.get( '?page=custompage_bigapp&action=getLogs&t='+Date.now() )
+            				.success( function ( jsonResult, statusHttp, headers, config ) {
+            					// connection is lost ?
+            					if (statusHttp==401 || typeof jsonResult === 'string') {
+            						console.log("Redirected to the login page !");
+            						window.location.reload();
+            					}
+
+            						console.log("logs",jsonResult);
+            						self.logs 		= jsonResult;
+            						self.inprogress			= false;
+            					})
+            				.error( function() {
+            						self.inprogress			= false;
+            					});
+        }
+        // Run the initialization Logs when the page is displayed
+        this.getLogs();
+
 	// ------------------------------------------------------------------------------
 	//    Timer
 	// ------------------------------------------------------------------------------

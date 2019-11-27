@@ -60,7 +60,7 @@
 					<td rowspan="2"><img src="img/bigapp.jpg?" width="150" heigth="150" /></td>
 				</tr>
 				<tr>
-					<td style="font-size: 0.8em"><a href="" ng-click="bigappctrl.showhistory( ! bigappctrl.isshowhistory )">V2.2</a></td>
+					<td style="font-size: 0.8em"><a href="" ng-click="bigappctrl.showhistory( ! bigappctrl.isshowhistory )">V1.0</a></td>
 				</tr>
 				<tr>
 					<td>
@@ -78,15 +78,15 @@
 				style=""><a ng-click="ctrl.navbaractiv = 'environment';" tab-heading-transclude="" class="ng-binding">Environment</a></li>
 		</ul>-->
 
-		<br/>
+		<br/><br/><br/><br/>
 
 		<!--  ************************************************************  -->
 		<!--  Tab Environment		 										-->
 		<!--  ************************************************************  -->
-		<div class="col-lg-12" ng-show="ctrl.navbaractiv == 'environment'">
+		<div class="col-lg-12">
 
 			<div class="col-lg-4">
-				<div class="panel panel-success">
+				<div class="panel panel-custom">
 					<div class="panel-heading">Environment</div>
 					<div class="panel-body">
 						<table>
@@ -95,8 +95,12 @@
 								<td>{{ctrl.environment.operatingSystemInfos}}</td>
 							</tr>
 							<tr>
-								<th>Java Machine & version</th>
-								<td>{{ctrl.environment.JavaMachine}}</td>
+								<th>Java machine & version</th>
+								<td>{{ctrl.environment.javaMachine}}</td>
+							</tr>
+							<tr>
+								<th>Memory usage percentage</th>
+								<td>{{ctrl.environment.memoryUsage}}</td>
 							</tr>
 							<tr>
 								<th>Available processors</th>
@@ -107,17 +111,22 @@
 				</div>
 			</div>
 			<div class="col-lg-4">
-				<div class="panel panel-success">
+				<div class="panel panel-custom">
 					<div class="panel-heading">Logs</div>
 					<div class="panel-body">
-						<input type="checkbox" name="vehicle1" value="Bike"> I have a bike<br> <input type="checkbox" name="vehicle2" value="Car"> I have a car<br> <input type="checkbox"
-							name="vehicle3" value="Boat"> I have a boat<br>
+						<table>
+							<tr>
+								<th>{{ctrl.logs.test}}</th>
+								<!--<td></td>-->
+							</tr>
+							<tr>
+						</table>
 					</div>
 				</div>
 			</div>
 
 			<div class="col-lg-4">
-				<div class="panel panel-success">
+				<div class="panel panel-custom">
 					<div class="panel-heading">Setup Configuration</div>
 					<div class="panel-body">
 						<button class="btn btn-primary">Pull</button>
