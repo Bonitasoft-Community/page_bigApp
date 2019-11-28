@@ -115,11 +115,10 @@
 					<div class="panel-heading">Logs</div>
 					<div class="panel-body">
 						<table>
-							<tr>
-								<th>{{ctrl.logs.test}}</th>
-								<!--<td></td>-->
+							<tr ng-repeat="(key, value) in ctrl.logs">
+								<th><input type="checkbox"/></th>
+								<td>{{value}}</td>
 							</tr>
-							<tr>
 						</table>
 					</div>
 				</div>
@@ -140,8 +139,6 @@
 		</div>
 		<!--  end tab environment -->
 	</div>
-
-
 
 	<!-- Third party dependencies -->
 

@@ -19,16 +19,17 @@ public class Logs {
         Set<String> fileList = new HashSet<>();
         Map<String, Object> result = new HashMap<String, Object>();
         String i = "";
-
+        Integer j = 0;
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(dir+"/logs/"))) {
             for (Path path : stream) {
                 if (!Files.isDirectory(path)) {
                     fileList.add(path.getFileName().toString());
-                    i = i+ "\n "+ path.getFileName().toString();
+                    result.put( String.valueOf(j), path.getFileName().toString());
+                    j++;
                 }
             }
         }
-        result.put( "test", i);
+
         return result;
     }
 }

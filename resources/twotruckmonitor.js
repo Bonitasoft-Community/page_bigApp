@@ -8,11 +8,6 @@
 
 var appCommand = angular.module('bigapp', ['ui.bootstrap','ngSanitize']);
 
-
-
-
-
-
 // --------------------------------------------------------------------------
 //
 // Controler BigApp
