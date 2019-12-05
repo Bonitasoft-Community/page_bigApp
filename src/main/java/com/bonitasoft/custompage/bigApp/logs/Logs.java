@@ -5,27 +5,26 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class Logs {
 
-    public static Map<String, Object> getLogs() throws IOException {
+    public static List<Map<String, Object>> getLogs() throws IOException {
 
         String dir = System.getProperty("catalina.home");
 
         Set<String> fileList = new HashSet<>();
-        Map<String, Object> result = new HashMap<String, Object>();
-        String i = "";
+        List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
         Integer j = 0;
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(dir+"/logs/"))) {
             for (Path path : stream) {
                 if (!Files.isDirectory(path)) {
                     fileList.add(path.getFileName().toString());
-                    result.put( String.valueOf(j), path.getFileName().toString());
-                    j++;
+                    Map<String, Object> mapFile = new HashMap<String, Object>();
+                    result.add(mapFile);
+                    mapFile.put("name", path.getFileName().toString());
+                    //result.put( String.valueOf(j), path.getFileName().toString());
+                    //j++;
                 }
             }
         }

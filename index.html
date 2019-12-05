@@ -21,8 +21,6 @@
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript" src="https://www.google.com/uds/?file=visualization&amp;v=1&amp;hl=fr&amp;packages=corechart&amp;async=2"></script>
 <link type="text/css" href="https://www.google.com/uds/api/visualization/1.0/ff67c3772da186a412ae3231c32409e9/ui+fr.css" rel="stylesheet">
-<script type="text/javascript" src="https://www.google.com/uds/api/visualization/1.0/ff67c3772da186a412ae3231c32409e9/format+fr,default+fr,ui+fr,corechart+fr.I.js"></script>
-<link href="https://ajax.googleapis.com/ajax/static/modules/gviz/1.0/core/tooltip.css" rel="stylesheet" type="text/css">
 
 <style>
 .Loading {
@@ -46,11 +44,7 @@
 </head>
 <body ng-app="bigapp">
 
-
 	<!--  Page Directory: @_PAGEDIRECTORY_@ -->
-
-
-
 
 	<div class="col-lg-12" class="bs-component" ng-controller="BigAppControler as ctrl">
 		<center>
@@ -115,31 +109,34 @@
 					<div class="panel-heading">Logs</div>
 					<div class="panel-body">
 						<table>
-							<tr ng-repeat="(key, value) in ctrl.logs">
+						<center>
+								<tr ng-repeat="mapFile in ctrl.getLogsPage()">
 								<th><input type="checkbox"/></th>
-								<td>{{value}}</td>
-							</tr>
+								<td>{{mapFile.name}}</td>
+								</tr>
+							</center>
 						</table>
+						<center><pagination ng-show="true" ng-model="ctrl.logPagination.pageNumber" total-items="ctrl.logPagination.totalItems" items-per-page="ctrl.logPagination.itemsPerPage">
+						</pagination></center>
 					</div>
 				</div>
+				<center><br/>
+					<button class="btn btn-primary">Collect and get a ZIP file</button>
+				</center>
 			</div>
 
 			<div class="col-lg-4">
 				<div class="panel panel-custom">
 					<div class="panel-heading">Setup Configuration</div>
 					<div class="panel-body">
-						<button class="btn btn-primary">Pull</button>
+						<center><button class="btn btn-primary">Pull</button></center>
 					</div>
 				</div>
 			</div>
 
-			<center>
-				<button class="btn btn-primary">Collect and get a ZIP file</button>
-			</center>
 		</div>
 		<!--  end tab environment -->
 	</div>
-
 	<!-- Third party dependencies -->
 
 

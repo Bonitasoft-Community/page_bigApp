@@ -230,7 +230,7 @@ public class Actions {
             File pageDirectory = pageResourceProvider.getPageDirectory();
 
             if("getLogs".equals(action)) {
-                actionAnswer.setResponse(Logs.getLogs());
+                actionAnswer.responseMap.put("logs", Logs.getLogs());
             } else if("getEnvironment".equals(action)) {
                 actionAnswer.setResponse(EnvironmentDetails.getEnvironment(session));
             } else if ("getmissingtimer".equals(action)) {

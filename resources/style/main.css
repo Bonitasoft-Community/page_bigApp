@@ -29,3 +29,44 @@ pagination-container span.glyphicon		{height:18px;}
 pagination-container button	{font-weight:bold;}
 
 table.stats td, table.stats th	{text-align:center;}
+
+
+
+ .pagination > li > a
+{
+    background-color: #dd0033;
+    color: white;
+}
+
+.pagination > li > a:focus,
+.pagination > li > a:focus,
+.pagination > li > a:hover,
+.pagination > li > span:focus,
+.pagination > li > span:hover
+{
+    color: white;
+    background-color: #161f29;
+    border-color: #161f29;
+}
+
+.pagination > .disabled > a,
+.pagination > .disabled > a:hover,
+.pagination > .disabled > a:focus {
+	background-color: #dd0033;
+    cursor: default;
+    border-color: transparent;
+}
+
+.pagination > .active > a
+{
+    color: dd0033;
+    background-color: #161f29 !Important;
+    border: solid 1px #161f29 !Important;
+}
+
+.pagination > .active > a:hover
+{
+	color: white;
+    background-color: #161f29 !Important;
+    border: solid 1px #161f29;
+}
