@@ -71,7 +71,7 @@ appCommand.controller('BigAppControler',
         // ------------------------------------------------------------------------------
         this.navbaractiv='logs';
         this.logs = {};
-        this.logPagination = {'pageNumber': 1, 'itemsPerPage':10,'totalItems':0} ;
+        this.logPagination = {'pageNumber': 1, 'itemsPerPage':5,'totalItems':0} ;
 
         this.getLogs= function() {
 
@@ -89,7 +89,11 @@ appCommand.controller('BigAppControler',
             						console.log("logs",jsonResult);
             						self.logs 		= jsonResult.logs;
             						self.logPagination.pageNumber = 1 ;
+            						if(self.logs.length>30) {
+            						self.logPagination.totalItems = 30;
+            						} else {
             						self.logPagination.totalItems = self.logs.length;
+            						}
 
             						self.inprogress			= false;
             					})
@@ -101,12 +105,48 @@ appCommand.controller('BigAppControler',
         this.getLogs();
 
         // Pagination managment
-        this.logItemPerPage = 10;
+        this.logItemPerPage = 5;
         this.getLogsPage = function() {
             var begin = ((this.logPagination.pageNumber - 1) * this.logPagination.itemsPerPage);
 		    var end =  begin + this.logPagination.itemsPerPage;
+		    if(end>30){
+		        end = 30;
+            }
             return this.logs.slice(begin, end);
         }
+
+
+        // ------------------------------------------------------------------------------
+        //    Setup Configuration
+        // ------------------------------------------------------------------------------
+        this.navbaractiv='setupconfiguration';
+        this.setupconfiguration = {};
+        this.getSetupConfiguration= function() {
+
+                   var self=this;
+                   self.inprogress=true;
+
+                   $http.get( '?page=custompage_bigapp&action=getSetupConfiguration&t='+Date.now() )
+                   .success( function ( jsonResult, statusHttp, headers, config ) {
+                        					// connection is lost ?
+                        	if (statusHttp==401 || typeof jsonResult === 'string') {
+                        	console.log("Redirected to the login page !");
+                        			window.location.reload();
+                        	}
+
+                        	console.log("SetupConfiguration",jsonResult);
+                        	self.setupconfiguration 		= jsonResult;
+                        	self.inprogress			= false;
+                        	//
+                        	})
+                        	.error( function() {
+                        	self.inprogress			= false;
+                        	});
+                    }
+                    // Run the initialization SetupConfiguration when the page is displayed
+
+    this.getSetupConfiguration();
+
 
 	// ------------------------------------------------------------------------------
 	//    Timer

@@ -1,19 +1,67 @@
 package com.bonitasoft.custompage.bigApp.setupconfiguration;
 
-import org.bonitasoft.serverconfiguration.CollectResult;
+import org.bonitasoft.log.event.BEvent;
+import org.bonitasoft.serverconfiguration.*;
 import org.bonitasoft.serverconfiguration.CollectResult.COLLECTLOGSTRATEGY;
-import org.bonitasoft.serverconfiguration.CollectResultDecoMap;
-import org.bonitasoft.serverconfiguration.ConfigAPI;
 import org.bonitasoft.serverconfiguration.ConfigAPI.CollectParameter;
 import org.bonitasoft.serverconfiguration.referentiel.BonitaConfigPath;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Map;
 
 public class SetupConfiguration {
 
-    public static void getSetupConfiguration() throws IOException {
+
+    public static CollectResultDecoZip.ResultZip getSetupConfig() {
+
+        String dir = "";
+
+        if(System.getProperty("catalina.home")!=null && !System.getProperty("catalina.home").isEmpty()){
+            dir = System.getProperty("catalina.home")+"/logs/";
+        } else {
+            dir = System.getProperty("jboss.server.log.dir")+"/";
+        }
+
+        File fileBundle;
+
+        //File fileBundle = null;
+        fileBundle = new File(dir);
+        ArrayList<BEvent> listEvents = new ArrayList<BEvent>();
+
+        try {
+            fileBundle = new File(fileBundle.getCanonicalPath());
+        } catch (Exception e) {
+        }
+
+        ConfigAPI.CollectParameter collectParameter = new ConfigAPI.CollectParameter();
+        collectParameter.collectPlatformCharacteristic = true;
+        collectParameter.collectServer = true;
+        collectParameter.collectSetup = true;
+        collectParameter.hidePassword = true;
+
+
+        BonitaConfigPath localBonitaConfig = BonitaConfigPath.getInstance(fileBundle);
+        ConfigAPI currentConfig = ConfigAPI.getInstance( localBonitaConfig );
+        collectParameter.localFile = fileBundle;
+        listEvents.addAll( currentConfig.setupPull() );
+
+        // now, collect result
+        CollectResult collectResult = currentConfig.collectParameters( collectParameter, CollectResult.COLLECTLOGSTRATEGY.LOGALL);
+
+        // I want the result in JSON, so use a ResultDecoMap
+        CollectResultDecoZip decoZip = new CollectResultDecoZip(collectResult);
+        CollectResultDecoZip.ResultZip resultZip = decoZip.getZip( CollectOperation.TYPECOLLECT.SETUP );
+
+        // collect errors
+        listEvents.addAll( collectResult.getErrors());
+        listEvents.addAll( resultZip.listEvents );
+
+        return resultZip;
+    }
+
+    /*public static void getSetupConfiguration() throws IOException {
 
         String dir = System.getProperty("catalina.home");
         File fileBundle = new File(dir + "/../../../../../../../");
@@ -39,5 +87,5 @@ public class SetupConfiguration {
         // ok, get the value of decoration
         Map<String, Object> result = decoMap.getMap();
 
-    }
+    }*/
 }

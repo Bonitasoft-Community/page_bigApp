@@ -1,3 +1,4 @@
+import com.bonitasoft.custompage.bigApp.setupconfiguration.SetupConfiguration
 import com.bonitasoft.engine.log.LogSearchDescriptor
 import groovy.lang.Binding
 
@@ -232,8 +233,12 @@ public class Actions {
             if("getLogs".equals(action)) {
                 actionAnswer.responseMap.put("logs", Logs.getLogs());
             } else if("getEnvironment".equals(action)) {
-                actionAnswer.setResponse(EnvironmentDetails.getEnvironment(session));
-            } else if ("getmissingtimer".equals(action)) {
+                Map<String, Object> result = new HashMap<String, Object>();
+                result = EnvironmentDetails.getEnvironment(session);
+                actionAnswer.setResponse(result);
+            } else if("getSetupConfiguration".equals(action)) {
+                actionAnswer.setResponse(SetupConfiguration.getSetupConfig());
+            }else if ("getmissingtimer".equals(action)) {
                 actionAnswer.setResponse(Timer.getMissingTimers(false, processAPI));
             } else if ("createmissingtimers".equals(action)) {
                 String typecreation = request.getParameter("typecreation");

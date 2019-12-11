@@ -1,19 +1,21 @@
 package com.bonitasoft.custompage.bigApp.environment;
 
+import com.bonitasoft.engine.api.PlatformMonitoringAPI;
 import com.bonitasoft.engine.api.TenantAPIAccessor;
+import com.bonitasoft.engine.monitoring.MonitoringException;
 import com.bonitasoft.engine.monitoring.UnavailableInformationException;
 import org.bonitasoft.engine.exception.BonitaHomeNotSetException;
-import org.bonitasoft.engine.exception.UnknownAPITypeException;
-import com.bonitasoft.engine.monitoring.MonitoringException;
 import org.bonitasoft.engine.exception.ServerAPIException;
+import org.bonitasoft.engine.exception.UnknownAPITypeException;
 import org.bonitasoft.engine.session.APISession;
-import com.bonitasoft.engine.api.PlatformMonitoringAPI;
 
+import javax.servlet.http.HttpServlet;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class EnvironmentDetails {
-    public static Map<String, Object> getEnvironment(APISession session) throws BonitaHomeNotSetException, UnknownAPITypeException, ServerAPIException, MonitoringException, UnavailableInformationException {
+public class EnvironmentDetails extends HttpServlet {
+    public static Map<String, Object> getEnvironment(APISession session) throws UnknownHostException, BonitaHomeNotSetException, UnknownAPITypeException, ServerAPIException, MonitoringException, UnavailableInformationException {
 
 
         Map<String, Object> result = new HashMap<String, Object>();
@@ -84,6 +86,12 @@ public class EnvironmentDetails {
         }
 
         result.put("CommitedVirtualMemorySize", jvmSystemProp);
+
+        if(System.getProperty("catalina.base")!=null && System.getProperty("catalina.base").contains( "tomcat" )) {
+            result.put( "WebServer", "Tomcat");
+        } else if(System.getProperty("jboss.server.config.dir")!=null && System.getProperty("jboss.server.config.dir").contains( "wildfly" )){
+            result.put( "WebServer", "Wildfly");
+        }
 
         return result;
     }
