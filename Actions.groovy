@@ -1,92 +1,23 @@
+import com.bonitasoft.custompage.bigApp.Timer
+import com.bonitasoft.custompage.bigApp.Timer.MethodResetTimer
+import com.bonitasoft.custompage.bigApp.environment.EnvironmentDetails
+import com.bonitasoft.custompage.bigApp.groovymaintenance.GroovyMaintenance
+import com.bonitasoft.custompage.bigApp.logs.Logs
 import com.bonitasoft.custompage.bigApp.setupconfiguration.SetupConfiguration
-import com.bonitasoft.engine.log.LogSearchDescriptor
-import groovy.lang.Binding
-
-import java.util.List
-import java.util.Map
-
-import org.codehaus.groovy.control.CompilerConfiguration;
+import com.bonitasoft.engine.api.TenantAPIAccessor
+import org.bonitasoft.console.common.server.page.PageContext
+import org.bonitasoft.console.common.server.page.PageResourceProvider
+import org.bonitasoft.engine.api.*
+import org.bonitasoft.engine.session.APISession
+import org.bonitasoft.web.extension.ResourceProvider
+import org.bonitasoft.web.extension.rest.RestAPIContext
+import org.codehaus.groovy.control.CompilerConfiguration
+import org.json.simple.JSONValue
 
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
-import javax.servlet.http.HttpSession;
-
-import java.text.SimpleDateFormat;
-import java.util.logging.Logger;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.PrintWriter;
-import java.lang.Runtime;
-
-import java.text.SimpleDateFormat;
-import java.util.logging.Logger;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.PrintWriter;
-import java.lang.Runtime;
-
-import org.json.simple.JSONObject;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONValue;
-
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import javax.sql.DataSource;
-import java.sql.DatabaseMetaData;
-
-import org.apache.commons.lang3.StringEscapeUtils
-
-import org.bonitasoft.engine.identity.User;
-import org.bonitasoft.console.common.server.page.PageContext
-import org.bonitasoft.console.common.server.page.PageController
-import org.bonitasoft.console.common.server.page.PageResourceProvider
-import org.bonitasoft.engine.exception.AlreadyExistsException;
-import org.bonitasoft.engine.exception.BonitaHomeNotSetException;
-import org.bonitasoft.engine.exception.CreationException;
-import org.bonitasoft.engine.exception.DeletionException;
-import org.bonitasoft.engine.exception.ServerAPIException;
-import org.bonitasoft.engine.exception.UnknownAPITypeException;
-
-import com.bonitasoft.engine.api.TenantAPIAccessor;
-import org.bonitasoft.engine.api.APIClient;
-import org.bonitasoft.web.extension.rest.RestAPIContext
-import org.bonitasoft.web.extension.rest.RestApiController
-import org.bonitasoft.web.extension.ResourceProvider
-
-import org.bonitasoft.engine.session.APISession;
-import org.bonitasoft.log.event.BEventFactory
-import org.bonitasoft.log.event.BEvent
-
-import org.bonitasoft.engine.api.CommandAPI;
-import org.bonitasoft.engine.api.ProcessAPI;
-import org.bonitasoft.engine.api.IdentityAPI;
-import org.bonitasoft.engine.api.LoginAPI
-import org.bonitasoft.engine.api.ProfileAPI;
-import org.bonitasoft.engine.api.TenantAdministrationAPI;
-import org.bonitasoft.engine.api.ThemeAPI;
-import org.bonitasoft.engine.api.BusinessDataAPI;
-import org.bonitasoft.engine.api.PageAPI;
-import org.bonitasoft.engine.api.PermissionAPI;
-import org.bonitasoft.engine.api.ApplicationAPI;
-
-import org.bonitasoft.engine.command.CommandDescriptor;
-import org.bonitasoft.engine.command.CommandCriterion;
-import org.bonitasoft.engine.bpm.flownode.ActivityInstance;
-import org.bonitasoft.engine.bpm.process.ProcessDeploymentInfo;
-
-import com.bonitasoft.custompage.bigApp.Timer.MethodResetTimer;
-import com.bonitasoft.custompage.bigApp.Timer;
-import com.bonitasoft.engine.api.PlatformMonitoringAPI;
-
-import com.bonitasoft.custompage.bigApp.groovymaintenance.GroovyMaintenance;
-import com.bonitasoft.custompage.bigApp.environment.EnvironmentDetails;
-import com.bonitasoft.custompage.bigApp.logs.Logs
-
+import javax.servlet.http.HttpSession
+import java.util.logging.Logger
 
 public class Actions {
 
@@ -96,7 +27,6 @@ public class Actions {
     public final static String GROOVY_REST_API_CONTEXT = "restAPIContext";
     public final static String GROOVY_API_ACCESSOR = "apiAccessor";
     public final static String GROOVY_API_CLIENT = "apiClient";
-
 
 
     /**
@@ -114,30 +44,39 @@ public class Actions {
         public IdentityAPI getIdentityAPI() {
             return TenantAPIAccessor.getIdentityAPI(session);
         }
+
         public CommandAPI getCommandAPI() {
             return TenantAPIAccessor.getCommandAPI(session);
         }
-        public BusinessDataAPI getBusinessDataAPI(){
+
+        public BusinessDataAPI getBusinessDataAPI() {
             return TenantAPIAccessor.getBusinessDataAPI(session);
         }
+
         public PageAPI getCustomPageAPI() {
             return TenantAPIAccessor.getCustomPageAPI(session);
         }
+
         public ApplicationAPI getLivingApplicationAPI() {
             return TenantAPIAccessor.getLivingApplicationAPI(session);
         }
+
         public LoginAPI getLoginAPI() {
             return TenantAPIAccessor.getLoginAPI(session);
         }
-        public ProfileAPI getProfileAPI()    {
+
+        public ProfileAPI getProfileAPI() {
             return TenantAPIAccessor.getProfileAPI(session);
         }
+
         public TenantAdministrationAPI getTenantAdministrationAPI() {
             return TenantAPIAccessor.getTenantAdministrationAPI(session);
         }
+
         public ThemeAPI getThemeAPI() {
             return TenantAPIAccessor.getThemeAPI(session);
         }
+
         public refresh() {
             TenantAPIAccessor.refresh();
         }
@@ -154,30 +93,39 @@ public class Actions {
             logger.info("CALL MyAPIClient.GetprocessAPI()");
             return TenantAPIAccessor.getProcessAPI(session);
         }
+
         public IdentityAPI getIdentityAPI() {
             return TenantAPIAccessor.getIdentityAPI(session);
         }
+
         public CommandAPI getCommandAPI() {
             return TenantAPIAccessor.getCommandAPI(session);
         }
-        public BusinessDataAPI getBusinessDataAPI(){
+
+        public BusinessDataAPI getBusinessDataAPI() {
             return TenantAPIAccessor.getBusinessDataAPI(session);
         }
+
         public PageAPI getCustomPageAPI() {
             return TenantAPIAccessor.getCustomPageAPI(session);
         }
+
         public PermissionAPI getPermissionAPI() {
             return null; // does not exist
         }
-        public ProfileAPI getProfileAPI()  {
+
+        public ProfileAPI getProfileAPI() {
             return TenantAPIAccessor.getProfileAPI(session);
         }
+
         public APISession getSession() {
             return session;
         }
+
         public TenantAdministrationAPI getTenantAdministrationAPI() {
             return TenantAPIAccessor.getTenantAdministrationAPI(session);
         }
+
         public ThemeAPI getThemeAPI() {
             return TenantAPIAccessor.getThemeAPI(session);
         }
@@ -196,6 +144,7 @@ public class Actions {
             logger.info("CALL MyRestContext.getApiClient()");
             return myApiClient;
         }
+
         public APISession getApiSession() {
             return myApiClient.session;
         }
@@ -230,15 +179,31 @@ public class Actions {
             CommandAPI commandAPI = TenantAPIAccessor.getCommandAPI(session);
             File pageDirectory = pageResourceProvider.getPageDirectory();
 
-            if("getLogs".equals(action)) {
+            if ("getLogs".equals(action)) {
                 actionAnswer.responseMap.put("logs", Logs.getLogs());
-            } else if("getEnvironment".equals(action)) {
+            } else if ("getEnvironment".equals(action)) {
                 Map<String, Object> result = new HashMap<String, Object>();
                 result = EnvironmentDetails.getEnvironment(session);
                 actionAnswer.setResponse(result);
-            } else if("getSetupConfiguration".equals(action)) {
-                actionAnswer.setResponse(SetupConfiguration.getSetupConfig());
-            }else if ("getmissingtimer".equals(action)) {
+            } else if ("getSetupConfiguration".equals(action)) {
+
+                response.addHeader("content-disposition", "attachment; filename=LogFiles.zip");
+                response.addHeader("content-type", "application/zip");
+
+                byte[] zipContent = SetupConfiguration.getSetupConfiguration().zipContent;
+                logger.info("#### ZIIIIIIIIIIIIIIIIIIIIIP"+SetupConfiguration.getSetupConfiguration().listEvents.toString());
+                OutputStream output = response.getOutputStream();
+                zipContent.writeTo( output );
+                output.flush();
+                output.close();
+                //List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
+                //Map<String, Object> mapFile = new HashMap<String, Object>();
+                //mapFile.put("setupconfiguration", SetupConfiguration.getSetupConfiguration());
+                //result.add(mapFile);
+                //actionAnswer.setResponse(mapFile);
+
+
+            } else if ("getmissingtimer".equals(action)) {
                 actionAnswer.setResponse(Timer.getMissingTimers(false, processAPI));
             } else if ("createmissingtimers".equals(action)) {
                 String typecreation = request.getParameter("typecreation");
@@ -255,29 +220,26 @@ public class Actions {
                 InputStream is = pageResourceProvider.getResourceAsStream("lib/CustomPageTowTruck-1.0.1.jar");
 
                 actionAnswer.setResponse(Timer.createMissingTimers(methodResetTimer, is, processAPI, commandAPI, null));
-            }
-
-            else if ("deletetimers".equals(action)) {
+            } else if ("deletetimers".equals(action)) {
                 actionAnswer.setResponse(Timer.deleteTimers(processAPI));
-            }
-            else if ("groovyload".equals(action)) {
+            } else if ("groovyload".equals(action)) {
                 String groovyCode = request.getParameter("code");
-                actionAnswer.responseMap = GroovyMaintenance.getGroovyMaintenance( request, groovyCode, pageDirectory);
-            }
-            else if ("groovyinterpretation".equals(action)) {
+                actionAnswer.responseMap = GroovyMaintenance.getGroovyMaintenance(request, groovyCode, pageDirectory);
+            } else if ("groovyinterpretation".equals(action)) {
                 String paramJsonPartial = request.getParameter("paramjson");
                 logger.info("collect_add paramJsonPartial=[" + paramJsonPartial + "]");
 
                 String accumulateJson = (String) httpSession.getAttribute("accumulate");
-                if (accumulateJson==null)
-                    accumulateJson="";
-                String firstUrl= request.getParameter("firstUrl");
-                
+                if (accumulateJson == null)
+                    accumulateJson = "";
+                String firstUrl = request.getParameter("firstUrl");
+
                 if ("1".equals(firstUrl))
-                   accumulateJson="";
-        
-                if (paramJsonPartial!=null)
-                    accumulateJson += paramJsonPartial; //already decode by Tomcat  java.net.URLDecoder.decode(paramJsonPartial, "UTF-8");
+                    accumulateJson = "";
+
+                if (paramJsonPartial != null)
+                    accumulateJson += paramJsonPartial;
+                //already decode by Tomcat  java.net.URLDecoder.decode(paramJsonPartial, "UTF-8");
 
 
                 logger.info("Final Accumulator: accumulateJson=[" + accumulateJson + "]");
@@ -292,26 +254,26 @@ public class Actions {
                 String type = groovyParameters.get("type");
                 groovySrc = groovyParameters.get("src");
                 logger.info("#### bigappCustomPage:GroovyInterpretation directSrc startby[" + (groovySrc.length() > 10 ? groovySrc.substring(0, 8) + "..." : groovySrc) + "]");
-                actionAnswer.responseMap = GroovyMaintenance.getGroovyIntepretation( request, groovySrc, pageDirectory);
-            }
-            else if ("groovyexecute".equals(action)) {
+                actionAnswer.responseMap = GroovyMaintenance.getGroovyIntepretation(request, groovySrc, pageDirectory);
+            } else if ("groovyexecute".equals(action)) {
                 String paramJsonPartial = request.getParameter("paramjson");
                 logger.info("collect_add paramJsonPartial=[" + paramJsonPartial + "]");
 
                 String accumulateJson = (String) httpSession.getAttribute("accumulate");
-                if (accumulateJson==null)
-                    accumulateJson="";
-                    
-                String firstUrl= request.getParameter("firstUrl");
-                logger.info("FirstUrl="+firstUrl);
+                if (accumulateJson == null)
+                    accumulateJson = "";
+
+                String firstUrl = request.getParameter("firstUrl");
+                logger.info("FirstUrl=" + firstUrl);
                 if ("1".equals(firstUrl)) {
-                  accumulateJson="";
+                    accumulateJson = "";
                 }
-    
-                logger.info("accumulateJson="+accumulateJson);
-                    
-                if (paramJsonPartial!=null)
-                    accumulateJson += paramJsonPartial; //already decode by Tomcat  java.net.URLDecoder.decode(paramJsonPartial, "UTF-8");
+
+                logger.info("accumulateJson=" + accumulateJson);
+
+                if (paramJsonPartial != null)
+                    accumulateJson += paramJsonPartial;
+                //already decode by Tomcat  java.net.URLDecoder.decode(paramJsonPartial, "UTF-8");
 
 
                 logger.info("Final Accumulator: accumulateJson=[" + accumulateJson + "]");
@@ -324,7 +286,7 @@ public class Actions {
 
                 String groovySrc = null;
                 String type = groovyParameters.get("type");
-                if (type!=null && ("src".equals( type ) || "srcparameter".equals( type ) || type.length()==0) ) {
+                if (type != null && ("src".equals(type) || "srcparameter".equals(type) || type.length() == 0)) {
                     groovySrc = groovyParameters.get("src");
                     logger.info("#### bigappCustomPage:GroovyExecution directSrc startby[" + (groovySrc.length() > 10 ? groovySrc.substring(0, 8) + "..." : groovySrc) + "]");
 
@@ -333,9 +295,8 @@ public class Actions {
                 // Actions actions = new Actions();
                 try {
                     // actionAnswer.responseMap.put("result", actions.executeGroovy(groovySrc, pageResourceProvider, pageContext));
-                    Binding binding = getBinding( pageResourceProvider,  pageContext);
-                    actionAnswer.responseMap = GroovyMaintenance.executeGroovyMaintenance( request, groovySrc, (List) groovyParameters.getAt("placeholder"), binding );
-
+                    Binding binding = getBinding(pageResourceProvider, pageContext);
+                    actionAnswer.responseMap = GroovyMaintenance.executeGroovyMaintenance(request, groovySrc, (List) groovyParameters.getAt("placeholder"), binding);
 
 
                 } catch (Exception e) {
@@ -348,30 +309,27 @@ public class Actions {
                     pw.close();
                     sw.close();
                 }
-            } else if ("groovyrest".equals(action))
-            {
+            } else if ("groovyrest".equals(action)) {
                 // first, load the code
                 String groovyCode = request.getParameter("code");
-                actionAnswer.responseMap = GroovyMaintenance.getGroovyMaintenance( request, groovyCode, pageDirectory);
+                actionAnswer.responseMap = GroovyMaintenance.getGroovyMaintenance(request, groovyCode, pageDirectory);
 
                 String status = actionAnswer.responseMap.get("status");
 
-                if ("DOWNLOADED".equals(status))
-                {
+                if ("DOWNLOADED".equals(status)) {
                     // second, execute
-                    Binding binding = getBinding( pageResourceProvider,  pageContext);
+                    Binding binding = getBinding(pageResourceProvider, pageContext);
                     List<Map<String, Object>> groovyParameters = new ArrayList();
-                    logger.info("#### bigappCustomPage:Request.getParametersName="+request.getParameterNames());
+                    logger.info("#### bigappCustomPage:Request.getParametersName=" + request.getParameterNames());
 
-                    for (String parameterName : request.getParameterNames())
-                    {
-                        Map oneParameter = [ "name": parameterName, "value":request.getParameter( parameterName)];
-                        groovyParameters.add( oneParameter);
-                        logger.info("#### bigappCustomPage:Parameter["+parameterName+"] value=["+request.getParameter( parameterName)+"]");
+                    for (String parameterName : request.getParameterNames()) {
+                        Map oneParameter = ["name": parameterName, "value": request.getParameter(parameterName)];
+                        groovyParameters.add(oneParameter);
+                        logger.info("#### bigappCustomPage:Parameter[" + parameterName + "] value=[" + request.getParameter(parameterName) + "]");
 
                     }
 
-                    actionAnswer.responseMap = GroovyMaintenance.executeGroovyMaintenance( request, null, (List) groovyParameters, binding );
+                    actionAnswer.responseMap = GroovyMaintenance.executeGroovyMaintenance(request, null, (List) groovyParameters, binding);
 
                 }
 
@@ -382,14 +340,15 @@ public class Actions {
                 logger.info("collect_add paramJsonPartial=[" + paramJsonPartial + "]");
 
                 String accumulateJson = (String) httpSession.getAttribute("accumulate");
-                if (accumulateJson==null)
-                    accumulateJson="";
-                    
-                String firstUrl= request.getParameter("firstUrl");
+                if (accumulateJson == null)
+                    accumulateJson = "";
+
+                String firstUrl = request.getParameter("firstUrl");
                 if ("1".equals(firstUrl))
-                    accumulateJson="";
-                    
-                accumulateJson += paramJsonPartial; // Tomcat already decode java.net.URLDecoder.decode(paramJsonPartial, "UTF-8");
+                    accumulateJson = "";
+
+                accumulateJson += paramJsonPartial;
+                // Tomcat already decode java.net.URLDecoder.decode(paramJsonPartial, "UTF-8");
                 httpSession.setAttribute("accumulate", accumulateJson);
                 actionAnswer.responseMap.put("status", "ok");
             } else {
@@ -410,8 +369,7 @@ public class Actions {
     }
 
 
-    public String executeGroovy(String script, PageResourceProvider pageResourceProvider,  PageContext pageContext  ) throws Exception
-    {
+    public String executeGroovy(String script, PageResourceProvider pageResourceProvider, PageContext pageContext) throws Exception {
         MyApiAccessor myApiAccessor = new MyApiAccessor();
         myApiAccessor.session = pageContext.getApiSession();
         MyAPIClient myAPIClient = new MyAPIClient();
@@ -424,24 +382,23 @@ public class Actions {
 
         Binding binding = new Binding();
         binding.setVariable(GROOVY_REST_API_CONTEXT, myRestContext);
-        binding.setVariable(GROOVY_API_ACCESSOR, myApiAccessor );
-        binding.setVariable(GROOVY_API_CLIENT, myAPIClient );
+        binding.setVariable(GROOVY_API_ACCESSOR, myApiAccessor);
+        binding.setVariable(GROOVY_API_CLIENT, myAPIClient);
 
         // GroovyShell shell = new GroovyShell(getClass().getClassLoader(), binding);
         CompilerConfiguration conf = new CompilerConfiguration();
         GroovyShell shell = new GroovyShell(binding, conf);
 
-        String result= shell.evaluate(script);
+        String result = shell.evaluate(script);
         // logger.info("#### bigappCustomPage:Result ="+result);
-        if (result==null)
-            result="Script was executed with success, but do not return any result."
+        if (result == null)
+            result = "Script was executed with success, but do not return any result."
         return result;
 
     }
 
 
-    private static  Binding getBinding(PageResourceProvider pageResourceProvider, PageContext pageContext)
-    {
+    private static Binding getBinding(PageResourceProvider pageResourceProvider, PageContext pageContext) {
         MyApiAccessor myApiAccessor = new MyApiAccessor();
         myApiAccessor.session = pageContext.getApiSession();
         MyAPIClient myAPIClient = new MyAPIClient();
@@ -454,11 +411,10 @@ public class Actions {
 
         Binding binding = new Binding();
         binding.setVariable(GROOVY_REST_API_CONTEXT, myRestContext);
-        binding.setVariable(GROOVY_API_ACCESSOR, myApiAccessor );
-        binding.setVariable(GROOVY_API_CLIENT, myAPIClient );
+        binding.setVariable(GROOVY_API_ACCESSOR, myApiAccessor);
+        binding.setVariable(GROOVY_API_CLIENT, myAPIClient);
         return binding;
     }
-
 
 
 }

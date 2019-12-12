@@ -8,13 +8,12 @@ import org.bonitasoft.serverconfiguration.referentiel.BonitaConfigPath;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Map;
+import java.util.*;
 
 public class SetupConfiguration {
 
 
-    public static CollectResultDecoZip.ResultZip getSetupConfig() {
+    public static CollectResultDecoZip.ResultZip getSetupConfiguration() {
 
         String dir = "";
 
@@ -24,15 +23,16 @@ public class SetupConfiguration {
             dir = System.getProperty("jboss.server.log.dir")+"/";
         }
 
-        File fileBundle;
+        //File fileBundle;
 
         //File fileBundle = null;
-        fileBundle = new File(dir);
+        File fileBundle = new File(dir);
         ArrayList<BEvent> listEvents = new ArrayList<BEvent>();
 
         try {
             fileBundle = new File(fileBundle.getCanonicalPath());
         } catch (Exception e) {
+            listEvents.add( new BEvent(null, e, "ZIIIIP ["+e.getMessage()+"] END" ));
         }
 
         ConfigAPI.CollectParameter collectParameter = new ConfigAPI.CollectParameter();
@@ -57,6 +57,11 @@ public class SetupConfiguration {
         // collect errors
         listEvents.addAll( collectResult.getErrors());
         listEvents.addAll( resultZip.listEvents );
+
+        List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
+        Map<String, Object> mapFile = new HashMap<String, Object>();
+        mapFile.put("name", resultZip);
+        result.add(mapFile);
 
         return resultZip;
     }

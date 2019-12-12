@@ -121,6 +121,7 @@ appCommand.controller('BigAppControler',
         // ------------------------------------------------------------------------------
         this.navbaractiv='setupconfiguration';
         this.setupconfiguration = {};
+        this.zip = {};
         this.getSetupConfiguration= function() {
 
                    var self=this;
@@ -134,8 +135,9 @@ appCommand.controller('BigAppControler',
                         			window.location.reload();
                         	}
 
-                        	console.log("SetupConfiguration",jsonResult);
+                        	console.log("SetupConfiguration",jsonResult.name);
                         	self.setupconfiguration 		= jsonResult;
+                        	self.zip = jsonResult.setupconfiguration;
                         	self.inprogress			= false;
                         	//
                         	})

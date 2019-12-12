@@ -43,7 +43,19 @@
 			<version>2.5</version>
 			<scope>provided</scope>
 		</dependency>
-	
+
+		<!--  copy the library from the BonitaServerConfiguration pom.xml -->
+		<dependency>
+			<groupId>org.xmlunit</groupId>
+			<artifactId>xmlunit-core</artifactId>
+			<version>2.6.3</version>
+		</dependency>
+		<dependency>
+			<groupId>io.github.java-diff-utils</groupId>
+			<artifactId>java-diff-utils</artifactId>
+			<version>4.4</version>
+		</dependency>
+
 		<!-- to execute the Deploy Plugin -->
 		<dependency>
 			<groupId>org.bonitasoft.store</groupId>
@@ -61,7 +73,7 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>3.8.1</version>
-            <scope>test</scope>
+			<scope>provided</scope>
         </dependency>
 		<dependency>
 			<groupId>org.bonitasoft.serverconfiguration</groupId>
