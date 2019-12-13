@@ -9,6 +9,7 @@ import org.bonitasoft.console.common.server.page.PageContext
 import org.bonitasoft.console.common.server.page.PageResourceProvider
 import org.bonitasoft.engine.api.*
 import org.bonitasoft.engine.session.APISession
+import org.bonitasoft.serverconfiguration.CollectResultDecoZip
 import org.bonitasoft.web.extension.ResourceProvider
 import org.bonitasoft.web.extension.rest.RestAPIContext
 import org.codehaus.groovy.control.CompilerConfiguration
@@ -17,6 +18,8 @@ import org.json.simple.JSONValue
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 import javax.servlet.http.HttpSession
+
+import java.util.Map
 import java.util.logging.Logger
 
 public class Actions {
@@ -186,22 +189,17 @@ public class Actions {
                 result = EnvironmentDetails.getEnvironment(session);
                 actionAnswer.setResponse(result);
             } else if ("getSetupConfiguration".equals(action)) {
-
-                response.addHeader("content-disposition", "attachment; filename=LogFiles.zip");
+                response.addHeader("content-disposition", "attachment; filename=Collect.zip");
                 response.addHeader("content-type", "application/zip");
 
-                byte[] zipContent = SetupConfiguration.getSetupConfiguration().zipContent;
-                logger.info("#### ZIIIIIIIIIIIIIIIIIIIIIP"+SetupConfiguration.getSetupConfiguration().listEvents.toString());
+                CollectResultDecoZip.ResultZip resultZip= SetupConfiguration.getSetupConfiguration( pageDirectory );
+                
                 OutputStream output = response.getOutputStream();
-                zipContent.writeTo( output );
+                resultZip.zipContent.writeTo( output );
+                
                 output.flush();
                 output.close();
-                //List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
-                //Map<String, Object> mapFile = new HashMap<String, Object>();
-                //mapFile.put("setupconfiguration", SetupConfiguration.getSetupConfiguration());
-                //result.add(mapFile);
-                //actionAnswer.setResponse(mapFile);
-
+                return actionAnswer;
 
             } else if ("getmissingtimer".equals(action)) {
                 actionAnswer.setResponse(Timer.getMissingTimers(false, processAPI));

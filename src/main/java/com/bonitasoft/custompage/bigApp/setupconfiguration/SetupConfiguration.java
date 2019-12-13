@@ -2,18 +2,24 @@ package com.bonitasoft.custompage.bigApp.setupconfiguration;
 
 import org.bonitasoft.log.event.BEvent;
 import org.bonitasoft.serverconfiguration.*;
+import org.bonitasoft.serverconfiguration.CollectOperation.TYPECOLLECT;
 import org.bonitasoft.serverconfiguration.CollectResult.COLLECTLOGSTRATEGY;
+import org.bonitasoft.serverconfiguration.CollectResultDecoZip.ResultZip;
 import org.bonitasoft.serverconfiguration.ConfigAPI.CollectParameter;
 import org.bonitasoft.serverconfiguration.referentiel.BonitaConfigPath;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.*;
+import java.util.zip.ZipOutputStream;
 
 public class SetupConfiguration {
 
 
-    public static CollectResultDecoZip.ResultZip getSetupConfiguration() {
+    public static CollectResultDecoZip.ResultZip getSetupConfiguration(File pageDirectory) {
+        ResultZip finalResultZip = new ResultZip();  
 
         String dir = "";
 
@@ -23,47 +29,53 @@ public class SetupConfiguration {
             dir = System.getProperty("jboss.server.log.dir")+"/";
         }
 
-        //File fileBundle;
-
-        //File fileBundle = null;
-        File fileBundle = new File(dir);
-        ArrayList<BEvent> listEvents = new ArrayList<BEvent>();
-
+        File fileBundle = null;
+        fileBundle = new File(pageDirectory.getAbsoluteFile() + "/../../../../../../../");
+      
+              
         try {
             fileBundle = new File(fileBundle.getCanonicalPath());
         } catch (Exception e) {
-            listEvents.add( new BEvent(null, e, "ZIIIIP ["+e.getMessage()+"] END" ));
+            finalResultZip.listEvents.add( new BEvent(null, e, "ZIIIIP ["+e.getMessage()+"] END" ));
         }
 
         ConfigAPI.CollectParameter collectParameter = new ConfigAPI.CollectParameter();
-        collectParameter.collectPlatformCharacteristic = true;
-        collectParameter.collectServer = true;
-        collectParameter.collectSetup = true;
-        collectParameter.hidePassword = true;
+        collectParameter.listTypeCollect.add( TYPECOLLECT.PLATFORM);
+        collectParameter.listTypeCollect.add( TYPECOLLECT.SERVER);
+        collectParameter.listTypeCollect.add( TYPECOLLECT.SETUP);
 
+        collectParameter.hidePassword = true;
 
         BonitaConfigPath localBonitaConfig = BonitaConfigPath.getInstance(fileBundle);
         ConfigAPI currentConfig = ConfigAPI.getInstance( localBonitaConfig );
         collectParameter.localFile = fileBundle;
-        listEvents.addAll( currentConfig.setupPull() );
+        finalResultZip.listEvents.addAll( currentConfig.setupPull() );
 
+     
+        
         // now, collect result
         CollectResult collectResult = currentConfig.collectParameters( collectParameter, CollectResult.COLLECTLOGSTRATEGY.LOGALL);
+        finalResultZip.listEvents.addAll( collectResult.getErrors());
 
         // I want the result in JSON, so use a ResultDecoMap
         CollectResultDecoZip decoZip = new CollectResultDecoZip(collectResult);
-        CollectResultDecoZip.ResultZip resultZip = decoZip.getZip( CollectOperation.TYPECOLLECT.SETUP );
+        List<TYPECOLLECT> listToCollect = Arrays.asList( CollectOperation.TYPECOLLECT.SETUP, CollectOperation.TYPECOLLECT.SERVER);
+        
+        finalResultZip.zipContent = new ByteArrayOutputStream();
+        ZipOutputStream zos = new ZipOutputStream( finalResultZip.zipContent );
+       
+        // todo : add any file you want in the zip
+        
+        
+        CollectResultDecoZip.ResultZip resultZipDeco = decoZip.addToZip( listToCollect, zos );
+        finalResultZip.listEvents.addAll( resultZipDeco.listEvents );
 
-        // collect errors
-        listEvents.addAll( collectResult.getErrors());
-        listEvents.addAll( resultZip.listEvents );
-
-        List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
-        Map<String, Object> mapFile = new HashMap<String, Object>();
-        mapFile.put("name", resultZip);
-        result.add(mapFile);
-
-        return resultZip;
+        try {
+            zos.close();
+        } catch (IOException e) {
+        }
+        
+        return finalResultZip;
     }
 
     /*public static void getSetupConfiguration() throws IOException {

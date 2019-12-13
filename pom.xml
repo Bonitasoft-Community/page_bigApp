@@ -7,29 +7,30 @@
 	<name>CustomPageBigApp</name>
 
 	<properties>
-		<bonita.version>7.9.2</bonita.version>
+		<bonita.version>7.9.4</bonita.version>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<maven.compiler.source>1.8</maven.compiler.source>
 	</properties>
 
 	<dependencies>
-		<!-- mvn install:install-file -Dfile=bonita-client-sp-7.9.2.jar -DgroupId=com.bonitasoft.engine -DartifactId=bonita-client -Dversion=7.9.2 -Dpackaging=jar -->
+		<!-- mvn install:install-file -Dfile=bonita-client-sp-7.9.4.jar -DgroupId=com.bonitasoft.engine -DartifactId=bonita-client -Dversion=7.9.4 -Dpackaging=jar -->
 		<dependency>
 			<groupId>com.bonitasoft.engine</groupId>
 			<artifactId>bonita-client</artifactId>
-			<version>7.9.2</version>
+			<version>7.9.4</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.bonitasoft.engine</groupId>
 			<artifactId>bonita-server</artifactId>
-			<version>7.9.2</version>
+			<version>7.9.4</version>
 			<scope>provided</scope>
 		</dependency>
+		 <!--  mvn install:install-file -Dfile=bonita-common-sp-7.9.4.jar -DgroupId=com.bonitasoft.engine -DartifactId=bonita-common -Dversion=7.9.4 -Dpackaging=jar -->
 		<dependency>
 			<groupId>com.bonitasoft.engine</groupId>
 			<artifactId>bonita-common</artifactId>
-			<version>7.9.2</version>
+			<version>7.9.4</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -65,7 +66,7 @@
 		<dependency>
 			<groupId>org.bonitasoft.engine</groupId>
 			<artifactId>bonita-client</artifactId>
-			<version>7.9.2</version>
+			<version>7.9.4</version>
 			<scope>provided</scope>
 		</dependency>
 

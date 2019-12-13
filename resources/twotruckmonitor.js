@@ -137,17 +137,17 @@ appCommand.controller('BigAppControler',
 
                         	console.log("SetupConfiguration",jsonResult.name);
                         	self.setupconfiguration 		= jsonResult;
-                        	self.zip = jsonResult.setupconfiguration;
                         	self.inprogress			= false;
                         	//
                         	})
                         	.error( function() {
                         	self.inprogress			= false;
                         	});
-                    }
+         }
                     // Run the initialization SetupConfiguration when the page is displayed
 
-    this.getSetupConfiguration();
+       this.currentTime = "132";
+       
 
 
 	// ------------------------------------------------------------------------------
