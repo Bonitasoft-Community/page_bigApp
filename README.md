@@ -1,6 +1,6 @@
 # Bonita Information Gathering Application (BigApp)
 
-This page's main goal is to retieve information needed (environment informations, log files, configuration files) for troubleshooting issues on the product.
+This page's main goal is to retrieve information needed (environment information, log files, configuration files) for troubleshooting issues on the product.
 
 <img src="ScreenshotBigApp.png"/>
 
@@ -12,4 +12,4 @@ This section contains general information about the environment where Bonita is 
 This section contains log files that the user could select so they will be added in the final Zip file.
 
 # Setup Configuration:
-This section performs a "setup.sh/bat" of the configuration files and prepare these files so they'll be included in the final Zip file that users can download. 
+This section performs a "setup.sh/bat" of the configuration files and prepares these files so they'll be included in the final Zip file that users can download. 
