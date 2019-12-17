@@ -1,4 +1,4 @@
-# page_bigapp
+# Bonita Information Gathering Application (BigApp)
 
 This page's main goal is to retieve information needed (environment informations, log files, configuration files) for troubleshooting issues on the product.
 
