@@ -1,20 +1,15 @@
 # page_bigapp
-The page is use to repair data in engine, like when some timer are broken, to create them again
 
-<!--<img src="screenshot_towtruck.jpg"/>-->
+This page's main goal is to retieve general information we need for troubleshooting (log files, config information from the server... )
 
-
-
-Use a Code:
-
-Support may give you a Code. Then go to the page, give the code, and execute it.
+<img src="ScreenshotBigApp.png"/>
 
 
+Environment Details:
+This section contains general information about the environment where Bonita is used. More information is included in the final Zip file, but only the most relevant ones are displayed on the page.
 
-Develop a new script:
+Log Files:
+This section contains log files that the used could select so they could be added in the final Zip file.
 
-Any script has be be saved under the GroovyMaintenance folder, in the Git Community (<https://github.com/Bonitasoft-Community/page_towtruck/tree/master/GroovyMaintenance>). The file name must be <Name>.groovy. Then the file name is the code to give (case sensitive).
-Visit <https://github.com/Bonitasoft-Community/page_towtruck/tree/master/GroovyMaintenance/ReadMe>
-
-
-
+Setup Configuration:
+This section performs a "setup.sh/bat" of the configuration files and prepare these files so they'll be included in the final Zip file that users can download. 
