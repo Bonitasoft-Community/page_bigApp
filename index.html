@@ -41,7 +41,6 @@
 	background-color: #fcf8e3;
 }
 </style>
-
 </head>
 <body ng-app="bigapp">
 
@@ -116,18 +115,21 @@
 						<table  class="table table-striped table-bordered" style="width:100%">
 						<center>
 								<tr ng-repeat="mapFile in ctrl.getLogsPage()">
-								<th><input type="checkbox"/></th>
+								<th><input ng-click="count = !count; ctrl.setListLogs(mapFile.name,count)" type="checkbox"
+										   ng-model="mapFile.selected"/></th>
 								<td>{{mapFile.name}}</td>
 								</tr>
 							</center>
 						</table>
-						<center><pagination ng-show="true" ng-model="ctrl.logPagination.pageNumber" total-items="ctrl.logPagination.totalItems" items-per-page="ctrl.logPagination.itemsPerPage">
-						</pagination></center>
+						<center>
+							<pagination ng-show="true" ng-model="ctrl.logPagination.pageNumber" total-items="ctrl.logPagination.totalItems" items-per-page="ctrl.logPagination.itemsPerPage">
+							</pagination>
+						</center>
 					</div>
 				</div>
 				<center><br/>
 		 
-					<a  class="btn btn-primary" href="?page=custompage_bigapp&action=getSetupConfiguration&t={{ctrl.currentTime}}">Collect and get a ZIP file</a>
+					<a  class="btn btn-primary" href="?page=custompage_bigapp&action=getSetupConfiguration&listLogs={{ctrl.listLogFiles.toString()}}&pullConfActivated={{ctrl.pullConfActivated}}&t={{ctrl.currentTime}}">Collect and get a ZIP file</a>
 				</center>
 			</div>
 
@@ -135,8 +137,10 @@
 				<div class="panel panel-custom">
 					<div class="panel-heading">Setup Configuration</div>
 					<div class="panel-body">
-						<center><button onclick="alert('Setup Pull was done successfully!')" class="btn btn-primary">Pull</button></center><br/>
-						<center><span class="glyphicon glyphicon-ok-sign text-success"></span>&nbsp;&nbsp;Setup Pull was done successfully!</center>
+						<center><button ng-click="ctrl.setPullFunc(); showVar = true" ng-init="showVar=false" class="btn btn-primary">Pull</button></center><br/> <!-- alert('Setup Pull was done successfully!') -->
+						<center>
+							<div ng-show="showVar"><span class="glyphicon glyphicon-ok-sign text-success"></span>&nbsp;&nbsp;Setup Pull was done successfully!</div>
+							</center>
 					</div>
 
 				</div>
@@ -146,7 +150,6 @@
 		<!--  end tab environment -->
 	</div>
 	<!-- Third party dependencies -->
-
 
 	<script src="3rd-party/jquery.min.js"></script>
 
@@ -159,7 +162,7 @@
 	<script src="3rd-party/angular-bootstrap-tpls.min.js"></script>
 	<script src="3rd-party/angular-sanitize.min.js"></script>
 
-	<script src="twotruckmonitor.js?v=@_CURRENTTIMEMILIS_@"></script>
+	<script src="bigAppMonitor.js?v=@_CURRENTTIMEMILIS_@"></script>
 
 	<!-- Application dependencies -->
 	</center>

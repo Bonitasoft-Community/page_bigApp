@@ -17,7 +17,7 @@
 		<dependency>
 			<groupId>com.bonitasoft.engine</groupId>
 			<artifactId>bonita-client</artifactId>
-			<version>7.9.4</version>
+			<version>7.9.2</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -30,7 +30,7 @@
 		<dependency>
 			<groupId>com.bonitasoft.engine</groupId>
 			<artifactId>bonita-common</artifactId>
-			<version>7.9.4</version>
+			<version>7.9.2</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>

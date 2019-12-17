@@ -13,24 +13,22 @@ public class Logs {
 
         String dir = "";
 
-        if(System.getProperty("catalina.home")!=null && !System.getProperty("catalina.home").isEmpty()){
-            dir = System.getProperty("catalina.home")+"/logs/";
+        if (System.getProperty( "catalina.home" ) != null && !System.getProperty( "catalina.home" ).isEmpty()) {
+            dir = System.getProperty( "catalina.home" ) + "/logs/";
         } else {
-            dir = System.getProperty("jboss.server.log.dir")+"/";
+            dir = System.getProperty( "jboss.server.log.dir" ) + "/";
         }
 
         Set<String> fileList = new HashSet<>();
         List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
         Integer j = 0;
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(dir))) {
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream( Paths.get( dir ) )) {
             for (Path path : stream) {
-                if (!Files.isDirectory(path)) {
-                    fileList.add(path.getFileName().toString());
+                if (!Files.isDirectory( path )) {
+                    fileList.add( path.getFileName().toString() );
                     Map<String, Object> mapFile = new HashMap<String, Object>();
-                    result.add(mapFile);
-                    mapFile.put("name", path.getFileName().toString());
-                    //result.put( String.valueOf(j), path.getFileName().toString());
-                    //j++;
+                    result.add( mapFile );
+                    mapFile.put( "name", path.getFileName().toString() );
                 }
             }
         }

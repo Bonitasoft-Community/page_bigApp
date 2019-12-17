@@ -18,8 +18,6 @@ import org.json.simple.JSONValue
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 import javax.servlet.http.HttpSession
-
-import java.util.Map
 import java.util.logging.Logger
 
 public class Actions {
@@ -189,14 +187,17 @@ public class Actions {
                 result = EnvironmentDetails.getEnvironment(session);
                 actionAnswer.setResponse(result);
             } else if ("getSetupConfiguration".equals(action)) {
-                response.addHeader("content-disposition", "attachment; filename=Collect.zip");
+                String listLogs = request.getParameter("listLogs");
+                Boolean pullConfActivated = Boolean.parseBoolean(request.getParameter("pullConfActivated"));
+
+                response.addHeader("content-disposition", "attachment; filename=BonitaConfigFiles.zip");
                 response.addHeader("content-type", "application/zip");
 
-                CollectResultDecoZip.ResultZip resultZip= SetupConfiguration.getSetupConfiguration( pageDirectory );
-                
+                CollectResultDecoZip.ResultZip resultZip = SetupConfiguration.getSetupConfiguration(pageDirectory, session, listLogs, pullConfActivated);
+
                 OutputStream output = response.getOutputStream();
-                resultZip.zipContent.writeTo( output );
-                
+                resultZip.zipContent.writeTo(output);
+
                 output.flush();
                 output.close();
                 return actionAnswer;
@@ -246,7 +247,6 @@ public class Actions {
 
                 // reset the accumulator
                 httpSession.setAttribute("accumulate", "");
-
 
                 String groovySrc = null;
                 String type = groovyParameters.get("type");
