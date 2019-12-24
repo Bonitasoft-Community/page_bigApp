@@ -4,6 +4,7 @@ import com.bonitasoft.engine.api.PlatformMonitoringAPI;
 import com.bonitasoft.engine.api.TenantAPIAccessor;
 import com.bonitasoft.engine.monitoring.MonitoringException;
 import com.bonitasoft.engine.monitoring.UnavailableInformationException;
+import org.apache.commons.lang3.StringUtils;
 import org.bonitasoft.engine.exception.BonitaHomeNotSetException;
 import org.bonitasoft.engine.exception.ServerAPIException;
 import org.bonitasoft.engine.exception.UnknownAPITypeException;
@@ -32,10 +33,37 @@ public class EnvironmentDetails extends HttpServlet {
 
         result.put( "availableProcessors", platformMonitoringAPI.getAvailableProcessors() );
 
-        if (System.getProperty( "catalina.base" ) != null && System.getProperty( "catalina.base" ).contains( "tomcat" )) {
-            result.put( "WebServer", "Tomcat" );
-        } else if (System.getProperty( "jboss.server.config.dir" ) != null && System.getProperty( "jboss.server.config.dir" ).contains( "wildfly" )) {
-            result.put( "WebServer", "Wildfly" );
+        String catalinaBase = System.getProperty( "catalina.base" );
+        String jBossBase = System.getProperty( "jboss.server.config.dir" );
+        if (catalinaBase != null && StringUtils.containsIgnoreCase( catalinaBase, "Tomcat" )) {
+            String pathwebserver = catalinaBase;
+            int indexBonitaStart = pathwebserver.indexOf( "tomcat" );
+            if (pathwebserver.indexOf( "tomcat" ) == -1 && pathwebserver.indexOf( "Tomcat" ) != -1) {
+                indexBonitaStart = pathwebserver.indexOf( "Tomcat" );
+
+                String webserver = pathwebserver.substring( indexBonitaStart );
+                int indexBonitaEnd = webserver.indexOf( "/" );
+                webserver = webserver.substring( 0, indexBonitaEnd );
+                if (webserver != null && !webserver.isEmpty()) {
+                    result.put( "WebServer", StringUtils.capitalize( webserver ) + 1 );
+                } else {
+                    result.put( "WebServer", "Tomcat" );
+                }
+            } else {
+                result.put( "WebServer", "Tomcat" );
+            }
+            // /home/ismail/NewBonita/Bundles/BonitaSubscription-7.8.1-Tomcat-8.5.34/server/RELEASE-NOTES
+        } else if (jBossBase != null && StringUtils.containsIgnoreCase( jBossBase, "wildfly" )) {
+            String pathwebserver = jBossBase;
+            int indexBonitaStart = pathwebserver.indexOf( "wildfly" );
+            String webserver = pathwebserver.substring( indexBonitaStart );
+            int indexBonitaEnd = webserver.indexOf( "/" );
+            webserver = webserver.substring( 0, indexBonitaEnd );
+            if (webserver != null && !webserver.isEmpty()) {
+                result.put( "WebServer", StringUtils.capitalize( webserver ) );
+            } else {
+                result.put( "WebServer", "Wildfly" );
+            }
         }
 
         return result;
