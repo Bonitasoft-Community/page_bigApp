@@ -72,8 +72,10 @@ public class SetupConfiguration {
         finalResultZip.zipContent = new ByteArrayOutputStream();
         ZipOutputStream zos = new ZipOutputStream( finalResultZip.zipContent );
 
-        // todo : add any file you want in the zip
+        // Adds Environmental information
         addEnvironmentDetails( zos, session );
+
+        // Adds Log files selected by the user
         addLogFiles( zos, session, listLogs );
 
         if (pullConfActivated) {

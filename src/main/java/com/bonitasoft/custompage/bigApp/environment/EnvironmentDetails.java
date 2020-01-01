@@ -11,13 +11,19 @@ import org.bonitasoft.engine.exception.UnknownAPITypeException;
 import org.bonitasoft.engine.session.APISession;
 
 import javax.servlet.http.HttpServlet;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 public class EnvironmentDetails extends HttpServlet {
 
-    public static Map<String, Object> getEnvironment(APISession session) throws UnknownHostException, BonitaHomeNotSetException, UnknownAPITypeException, ServerAPIException, MonitoringException, UnavailableInformationException {
+    static String catalinaBase = System.getProperty( "catalina.base" );
+    static String jBossBase = System.getProperty( "jboss.server.config.dir" );
+
+    public static Map<String, Object> getEnvironment(APISession session) throws FileNotFoundException, UnknownHostException, BonitaHomeNotSetException, UnknownAPITypeException, ServerAPIException, MonitoringException, UnavailableInformationException {
 
         Map<String, Object> result = new HashMap<String, Object>();
 
@@ -33,8 +39,6 @@ public class EnvironmentDetails extends HttpServlet {
 
         result.put( "availableProcessors", platformMonitoringAPI.getAvailableProcessors() );
 
-        String catalinaBase = System.getProperty( "catalina.base" );
-        String jBossBase = System.getProperty( "jboss.server.config.dir" );
         if (catalinaBase != null && StringUtils.containsIgnoreCase( catalinaBase, "Tomcat" )) {
             String pathwebserver = catalinaBase;
             int indexBonitaStart = pathwebserver.indexOf( "tomcat" );
@@ -45,14 +49,13 @@ public class EnvironmentDetails extends HttpServlet {
                 int indexBonitaEnd = webserver.indexOf( "/" );
                 webserver = webserver.substring( 0, indexBonitaEnd );
                 if (webserver != null && !webserver.isEmpty()) {
-                    result.put( "WebServer", StringUtils.capitalize( webserver ) + 1 );
+                    result.put( "WebServer", StringUtils.capitalize( webserver ) );
                 } else {
-                    result.put( "WebServer", "Tomcat" );
+                    result.put( "WebServer", getWebserverVersion() );
                 }
             } else {
-                result.put( "WebServer", "Tomcat" );
+                result.put( "WebServer", getWebserverVersion() );
             }
-            // /home/ismail/NewBonita/Bundles/BonitaSubscription-7.8.1-Tomcat-8.5.34/server/RELEASE-NOTES
         } else if (jBossBase != null && StringUtils.containsIgnoreCase( jBossBase, "wildfly" )) {
             String pathwebserver = jBossBase;
             int indexBonitaStart = pathwebserver.indexOf( "wildfly" );
@@ -64,6 +67,8 @@ public class EnvironmentDetails extends HttpServlet {
             } else {
                 result.put( "WebServer", "Wildfly" );
             }
+        } else {
+            result.put( "WebServer", getWebserverVersion() );
         }
 
         return result;
@@ -148,5 +153,28 @@ public class EnvironmentDetails extends HttpServlet {
         result = result.concat( "CommitedVirtualMemorySize;" + jvmSystemProp + ";\n" );
 
         return result;
+    }
+
+    private static String getWebserverVersion() throws FileNotFoundException {
+
+        String releaseNotesString = "";
+        String webServer = "Tomcat";
+
+        FileInputStream fis = new FileInputStream( catalinaBase+"/RELEASE-NOTES");
+        Scanner sc = new Scanner( fis );    //file to be scanned
+
+        //returns true if there is another line to read
+        while (sc.hasNextLine() && !releaseNotesString.contains("Release Notes")) {
+            releaseNotesString += sc.nextLine();      //returns the line that was skipped
+        }
+        sc.close();     //closes the scanner
+        if(releaseNotesString!=null && !releaseNotesString.isEmpty()) {
+            int indexStart = releaseNotesString.lastIndexOf( "Version " );
+            int indexEnd = releaseNotesString.indexOf( " Release Notes" );
+
+            webServer += "-" + releaseNotesString.substring( indexStart + 8, indexEnd );
+        }
+
+        return webServer;
     }
 }

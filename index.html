@@ -65,90 +65,98 @@
 				</tr>
 			</table>
 		</center>
-
+		<br/>
 		<!--<ul class="nav nav-tabs" ng-class="{'nav-stacked': vertical, 'nav-justified': justified}" ng-transclude>
 
 			<li ng-class="{active: active, disabled: false" id="form-tab" heading="All" active="true" title="Environment" select="ctrl.navbaractiv == 'environment'" class="{{ctrl.getNavClass('environment')}}"
 				style=""><a ng-click="ctrl.navbaractiv = 'environment';" tab-heading-transclude="" class="ng-binding">Environment</a></li>
 		</ul>-->
 
-		<br/><br/><br/><br/>
-
 		<!--  ************************************************************  -->
 		<!--  Tab Environment		 										-->
 		<!--  ************************************************************  -->
+		<center>
 		<div class="col-lg-12">
-
+			<div class="col-lg-4">
+			</div>
 			<div class="col-lg-4">
 				<div class="panel panel-custom">
-					<div class="panel-heading">Environment</div>
+					<div class="panel-heading">Environmental information</div>
 					<div class="panel-body">
 						<table>
 							<tr>
-								<th>Operating system</th>
-								<td>{{ctrl.environment.operatingSystemInfos}}</td>
+								<td>Operating system</td>
+								<td><center>{{ctrl.environment.operatingSystemInfos}}</center></td>
 							</tr>
 							<tr>
-								<th>Server</th>
-								<td>{{ctrl.environment.WebServer}}</td>
+								<td>Server</td>
+								<td><center>{{ctrl.environment.WebServer}}</center></td>
 							</tr>
 							<tr>
-								<th>Java machine</th>
-								<td>{{ctrl.environment.javaMachine}}</td>
+								<td>Java machine</td>
+								<td><center>{{ctrl.environment.javaMachine}}</center></td>
 							</tr>
 							<tr>
-								<th>Memory usage</th>
-								<td>{{ctrl.environment.memoryUsage}}</td>
+								<td>Memory usage</td>
+								<td><center>{{ctrl.environment.memoryUsage}}</center></td>
 							</tr>
 							<tr>
-								<th>Available processors</th>
-								<td>{{ctrl.environment.availableProcessors}}</td>
+								<td>Available processors</td>
+								<td><center>{{ctrl.environment.availableProcessors}}</center></td>
 							</tr>
 						</table>
 					</div>
 				</div>
 			</div>
-			<div class="col-lg-4">
+		</div>
+		</center>
+		<center>
+			<div class="col-lg-12">
+				<div class="col-lg-2">
+				</div>
+				<div class="col-lg-8">
 				<div class="panel panel-custom">
-					<div class="panel-heading">Logs</div>
+					<div class="panel-heading">Log Files</div>
 					<div class="panel-body">
 						<table  class="table table-striped table-bordered" style="width:100%">
-						<center>
+							<center>
 								<tr ng-repeat="mapFile in ctrl.getLogsPage()">
-								<th><center><input ng-click="count = !count; ctrl.setListLogs(mapFile.name,count)" type="checkbox"
-										   ng-model="mapFile.selected"/></center></th>
-								<td>{{mapFile.name}}</td>
+								<td width="42%" align="right"><input ng-click="count = !count; ctrl.setListLogs(mapFile.name,count)" type="checkbox" ng-model="mapFile.selected"/></td>
+								<td width="58%" align="left">{{mapFile.name}}</td>
 								</tr>
 							</center>
 						</table>
 						<center>
 							<pagination ng-show="true" ng-model="ctrl.logPagination.pageNumber" total-items="ctrl.logPagination.totalItems" items-per-page="ctrl.logPagination.itemsPerPage">
-							</pagination>
+							</pagination><br/>
+							<input ng-model="mapFile.selected" ng-change="ctrl.setPullFunc(); showVar = true" ng-init="showVar=false" type="checkbox"/><b> Include the setup configuration files</b> <br/><br/>
+							<a  class="btn btn-primary" href="?page=custompage_bigapp&action=getSetupConfiguration&listLogs={{ctrl.listLogFiles.toString()}}&pullConfActivated={{ctrl.pullConfActivated}}&t={{ctrl.currentTime}}">Download Files</a>
 						</center>
 					</div>
 				</div>
-				<center><br/>
-		 
-					<a  class="btn btn-primary" href="?page=custompage_bigapp&action=getSetupConfiguration&listLogs={{ctrl.listLogFiles.toString()}}&pullConfActivated={{ctrl.pullConfActivated}}&t={{ctrl.currentTime}}">Download Files</a>
-				</center>
+				</div>
+				<div class="col-lg-2">
+				</div>
 			</div>
 
-			<div class="col-lg-4">
+
+		</center>
+			<!-- div class="col-lg-4">
 				<div class="panel panel-custom">
 					<div class="panel-heading">Setup Configuration</div>
 					<div class="panel-body">
 						<center><button ng-click="ctrl.setPullFunc(); showVar = true" ng-init="showVar=false" class="btn btn-primary">Pull</button></center><br/> <!-- alert('Setup Pull was done successfully!') -->
-						<center>
+		<!-- <center>
 							<div ng-show="showVar"><span class="glyphicon glyphicon-ok-sign text-success"></span>&nbsp;&nbsp;Setup Pull was done successfully!</div>
 							</center>
 					</div>
 
 				</div>
-			</div>
+			</div> -->
 
 		</div>
 		<!--  end tab environment -->
-	</div>
+
 	<!-- Third party dependencies -->
 
 	<script src="3rd-party/jquery.min.js"></script>

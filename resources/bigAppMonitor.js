@@ -71,7 +71,7 @@ appCommand.controller('BigAppControler',
         // ------------------------------------------------------------------------------
         this.navbaractiv='logs';
         this.logs = {};
-        this.logPagination = {'pageNumber': 1, 'itemsPerPage':5,'totalItems':0} ;
+        this.logPagination = {'pageNumber': 1, 'itemsPerPage':10,'totalItems':0} ;
 
         this.getLogs= function() {
 
@@ -105,7 +105,7 @@ appCommand.controller('BigAppControler',
         this.getLogs();
 
         // Pagination managment
-        this.logItemPerPage = 5;
+        this.logItemPerPage = 10;
         this.getLogsPage = function() {
             var begin = ((this.logPagination.pageNumber - 1) * this.logPagination.itemsPerPage);
 		    var end =  begin + this.logPagination.itemsPerPage;
@@ -157,7 +157,7 @@ appCommand.controller('BigAppControler',
          }
                     // Run the initialization SetupConfiguration when the page is displayed
 
-        this.currentTime = "132";
+        this.currentTime = "123";
         this.checkVar = "";
         this.setListLogs= function(value, check) {
             if(check && !this.listLogFiles.includes(value)) {
@@ -169,9 +169,7 @@ appCommand.controller('BigAppControler',
 
         this.pullConfActivated = false;
         this.setPullFunc= function() {
-            var start = new Date().getTime();
-                while (new Date().getTime() < start + 500);
-                this.pullConfActivated = true;
+                this.pullConfActivated = !this.pullConfActivated;
         }
 
 
