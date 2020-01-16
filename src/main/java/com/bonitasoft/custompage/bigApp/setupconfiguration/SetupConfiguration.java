@@ -34,7 +34,7 @@ public class SetupConfiguration {
     }
 
 
-    public static CollectResultDecoZip.ResultZip getSetupConfiguration(File pageDirectory, APISession session, String listLogs, Boolean pullConfActivated) throws IOException, UnknownHostException, BonitaHomeNotSetException, UnknownAPITypeException, ServerAPIException, MonitoringException, UnavailableInformationException {
+    public static CollectResultDecoZip.ResultZip getSetupConfiguration(File pageDirectory, APISession session, String listLogs, Boolean pullConfActivated) throws java.lang.reflect.InvocationTargetException, java.lang.IllegalAccessException, NoSuchMethodException, IOException, UnknownHostException, BonitaHomeNotSetException, UnknownAPITypeException, ServerAPIException, MonitoringException, UnavailableInformationException {
 
         ResultZip finalResultZip = new ResultZip();
 
@@ -91,7 +91,7 @@ public class SetupConfiguration {
         return finalResultZip;
     }
 
-    private static void addEnvironmentDetails(ZipOutputStream zos, APISession session) throws IOException, UnknownHostException, BonitaHomeNotSetException, UnknownAPITypeException, ServerAPIException, MonitoringException, UnavailableInformationException {
+    private static void addEnvironmentDetails(ZipOutputStream zos, APISession session) throws java.lang.reflect.InvocationTargetException, java.lang.IllegalAccessException, NoSuchMethodException, IOException, UnknownHostException, BonitaHomeNotSetException, UnknownAPITypeException, ServerAPIException, MonitoringException, UnavailableInformationException {
 
         File environmentDetailsCSV = null;
 
@@ -123,6 +123,7 @@ public class SetupConfiguration {
     }
 
     private static void addFileToZip(ZipOutputStream zos, File fileToZip, String content) {
+
         FileInputStream fis = null;
         BufferedInputStream bis = null;
         byte[] bytes = new byte[2048];

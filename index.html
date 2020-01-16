@@ -126,9 +126,10 @@
 								</tr>
 							</center>
 						</table>
-						<center>
+
 							<pagination ng-show="true" ng-model="ctrl.logPagination.pageNumber" total-items="ctrl.logPagination.totalItems" items-per-page="ctrl.logPagination.itemsPerPage">
 							</pagination><br/>
+						<center>
 							<input ng-model="mapFile.selected" ng-change="ctrl.setPullFunc(); showVar = true" ng-init="showVar=false" type="checkbox"/><b> Include the setup configuration files</b> <br/><br/>
 							<a  class="btn btn-primary" href="?page=custompage_bigapp&action=getSetupConfiguration&listLogs={{ctrl.listLogFiles.toString()}}&pullConfActivated={{ctrl.pullConfActivated}}&t={{ctrl.currentTime}}">Download Files</a>
 						</center>

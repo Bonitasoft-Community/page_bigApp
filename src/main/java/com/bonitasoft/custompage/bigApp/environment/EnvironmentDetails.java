@@ -13,6 +13,9 @@ import org.bonitasoft.engine.session.APISession;
 import javax.servlet.http.HttpServlet;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.lang.management.ManagementFactory;
+import java.lang.management.OperatingSystemMXBean;
+import java.lang.reflect.Method;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,11 +43,12 @@ public class EnvironmentDetails extends HttpServlet {
         result.put( "availableProcessors", platformMonitoringAPI.getAvailableProcessors() );
 
         if (catalinaBase != null && StringUtils.containsIgnoreCase( catalinaBase, "Tomcat" )) {
+
             String pathwebserver = catalinaBase;
             int indexBonitaStart = pathwebserver.indexOf( "tomcat" );
-            if (pathwebserver.indexOf( "tomcat" ) == -1 && pathwebserver.indexOf( "Tomcat" ) != -1) {
-                indexBonitaStart = pathwebserver.indexOf( "Tomcat" );
+            if (null != pathwebserver && pathwebserver.indexOf( "tomcat" ) == -1 && pathwebserver.indexOf( "Tomcat" ) != -1) {
 
+                indexBonitaStart = pathwebserver.indexOf( "Tomcat" );
                 String webserver = pathwebserver.substring( indexBonitaStart );
                 int indexBonitaEnd = webserver.indexOf( "/" );
                 webserver = webserver.substring( 0, indexBonitaEnd );
@@ -74,7 +78,7 @@ public class EnvironmentDetails extends HttpServlet {
         return result;
     }
 
-    public static String getEnvironmentInfosExport(APISession session) throws UnknownHostException, BonitaHomeNotSetException, UnknownAPITypeException, ServerAPIException, MonitoringException, UnavailableInformationException {
+    public static String getEnvironmentInfosExport(APISession session) throws NoSuchMethodException, IllegalAccessException, java.lang.reflect.InvocationTargetException, UnknownHostException, BonitaHomeNotSetException, UnknownAPITypeException, ServerAPIException, MonitoringException, UnavailableInformationException {
 
         String result = "";
 
@@ -100,13 +104,33 @@ public class EnvironmentDetails extends HttpServlet {
 
         result = result.concat( "MemUsage;" + platformMonitoringAPI.getCurrentMemoryUsage() / 1024 + ";\n" );
 
-        result = result.concat( "MemFree;" + platformMonitoringAPI.getFreePhysicalMemorySize() / 1024 + ";\n" );
+        OperatingSystemMXBean operatingSystemMXBean = ManagementFactory.getOperatingSystemMXBean();
+        Method getFreePhysicalMemorySizeMethod = operatingSystemMXBean.getClass().getMethod("getFreePhysicalMemorySize", null);
+        getFreePhysicalMemorySizeMethod.setAccessible(true);
+        Object FreePhysicalMemorySizeValue = getFreePhysicalMemorySizeMethod.invoke(operatingSystemMXBean);
 
-        result = result.concat( "MemFreeSwap;" + platformMonitoringAPI.getFreeSwapSpaceSize() + ";\n" );
+        result = result.concat( "FreePhysicalMemorySize;" + FreePhysicalMemorySizeValue + ";\n" );
 
-        result = result.concat( "MemTotalPhysicalMemory;" + platformMonitoringAPI.getTotalPhysicalMemorySize() + ";\n" );
+        operatingSystemMXBean = ManagementFactory.getOperatingSystemMXBean();
+        Method getFreeSwapSpaceSizeMethod = operatingSystemMXBean.getClass().getMethod("getFreeSwapSpaceSize", null);
+        getFreeSwapSpaceSizeMethod.setAccessible(true);
+        Object freeSwapSpaceSizeValue = getFreeSwapSpaceSizeMethod.invoke(operatingSystemMXBean);
 
-        result = result.concat( "MemTotalSwapSpace;" + platformMonitoringAPI.getTotalSwapSpaceSize() + ";\n" );
+        result = result.concat( "MemFreeSwap;" + freeSwapSpaceSizeValue + ";\n" );
+
+        operatingSystemMXBean = ManagementFactory.getOperatingSystemMXBean();
+        Method getTotalPhysicalMemorySizeMethod = operatingSystemMXBean.getClass().getMethod("getTotalPhysicalMemorySize", null);
+        getTotalPhysicalMemorySizeMethod.setAccessible(true);
+        Object TotalPhysicalMemorySizeValue = getTotalPhysicalMemorySizeMethod.invoke(operatingSystemMXBean);
+
+        result = result.concat( "MemTotalPhysicalMemory;" + TotalPhysicalMemorySizeValue + ";\n" );
+
+        operatingSystemMXBean = ManagementFactory.getOperatingSystemMXBean();
+        Method getTotalSwapSpaceSize = operatingSystemMXBean.getClass().getMethod("getTotalSwapSpaceSize", null);
+        getTotalSwapSpaceSize.setAccessible(true);
+        Object totalSwapSpaceSizeValue = getTotalPhysicalMemorySizeMethod.invoke(operatingSystemMXBean);
+
+        result = result.concat( "MemTotalSwapSpace;" + totalSwapSpaceSizeValue + ";\n" );
 
         result = result.concat( "JavaFreeMemory;" + Runtime.getRuntime().freeMemory() / 1024 / 1024 + ";\n" );
 
@@ -128,8 +152,6 @@ public class EnvironmentDetails extends HttpServlet {
 
         result = result.concat( "OSVersion;" + platformMonitoringAPI.getOSVersion() + ";\n" );
 
-        result = result.concat( "ProcessCPUTime;" + platformMonitoringAPI.getProcessCpuTime() + ";\n" );
-
         result = result.concat( "StartTime;" + platformMonitoringAPI.getStartTime() + ";\n" );
 
         result = result.concat( "LoadAverageLastMn;" + platformMonitoringAPI.getSystemLoadAverage() + ";\n" );
@@ -141,8 +163,6 @@ public class EnvironmentDetails extends HttpServlet {
         result = result.concat( "UpTime;" + platformMonitoringAPI.getUpTime() + ";\n" );
 
         result = result.concat( "IsSchedulerStarted ;" + platformMonitoringAPI.isSchedulerStarted() + ";\n" );
-
-        result = result.concat( "CommitedVirtualMemorySize;" + platformMonitoringAPI.getCommittedVirtualMemorySize() + ";\n" );
 
         String jvmSystemProp = "";
 
