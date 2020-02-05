@@ -18,8 +18,7 @@ import org.bonitasoft.serverconfiguration.referentiel.BonitaConfigPath;
 
 import java.io.*;
 import java.net.UnknownHostException;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -72,16 +71,33 @@ public class SetupConfiguration {
         finalResultZip.zipContent = new ByteArrayOutputStream();
         ZipOutputStream zos = new ZipOutputStream( finalResultZip.zipContent );
 
+        // Create the files that we want to add into the result file zip
+        List<File> filesList = new ArrayList<File>();
+        File setupFile = new File(localBonitaConfig.getRootPath() + "/setup");
+        File serverConfFile = new File(localBonitaConfig.getRootPath() + "/server/conf");
+        File serverBinFile = new File(localBonitaConfig.getRootPath() + "/server/bin");
+
+        // Create a list with the files we want in the final zip file + The parent directory they're located at
+        Map<File, String> filesParentsDirectoryMap = new HashMap<>();
+        filesParentsDirectoryMap.put(setupFile, "/setup");
+        filesParentsDirectoryMap.put(serverConfFile, "/server/conf");
+        filesParentsDirectoryMap.put(serverBinFile, "/server/bin");
+
         // Adds Environmental information
-        addEnvironmentDetails( zos, session );
+        addEnvironmentDetails( zos, session,  setupFile);
 
         // Adds Log files selected by the user
         addLogFiles( zos, session, listLogs );
 
+        // When the user checks the "add setupConfiguration" option we call the method that will zip all the files that we have specified in filesParentsDirectoryMap
         if (pullConfActivated) {
-            CollectResultDecoZip.ResultZip resultZipDeco = decoZip.addToZip( listToCollect, zos );
-
-            finalResultZip.listEvents.addAll( resultZipDeco.listEvents );
+            ResultZip resultZip = new ResultZip();
+                filesParentsDirectoryMap.forEach((fileToZip, parentDirectoryName) -> {
+                    for(File file : fileToZip.listFiles()) {
+                        CollectResultDecoZip.ResultZip resultZipDeco = decoZip.addDirectoryToZip( zos, file, resultZip, parentDirectoryName );
+                        finalResultZip.listEvents.addAll( resultZipDeco.listEvents );
+                    }
+                });
         }
         try {
             zos.close();
@@ -91,11 +107,10 @@ public class SetupConfiguration {
         return finalResultZip;
     }
 
-    private static void addEnvironmentDetails(ZipOutputStream zos, APISession session) throws java.lang.reflect.InvocationTargetException, java.lang.IllegalAccessException, NoSuchMethodException, IOException, UnknownHostException, BonitaHomeNotSetException, UnknownAPITypeException, ServerAPIException, MonitoringException, UnavailableInformationException {
+    private static void addEnvironmentDetails(ZipOutputStream zos, APISession session, File setupFile) throws java.lang.reflect.InvocationTargetException, java.lang.IllegalAccessException, NoSuchMethodException, IOException, UnknownHostException, BonitaHomeNotSetException, UnknownAPITypeException, ServerAPIException, MonitoringException, UnavailableInformationException {
 
         File environmentDetailsCSV = null;
-
-        String content = EnvironmentDetails.getEnvironmentInfosExport( session );
+        String content = EnvironmentDetails.getEnvironmentInfosExport( session, setupFile);
         environmentDetailsCSV = new File( "environmentDetails.csv" );
         environmentDetailsCSV.createNewFile();
         addFileToZip( zos, environmentDetailsCSV, content );

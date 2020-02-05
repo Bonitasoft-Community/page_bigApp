@@ -11,12 +11,15 @@ import org.bonitasoft.engine.exception.UnknownAPITypeException;
 import org.bonitasoft.engine.session.APISession;
 
 import javax.servlet.http.HttpServlet;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.lang.management.ManagementFactory;
 import java.lang.management.OperatingSystemMXBean;
 import java.lang.reflect.Method;
 import java.net.UnknownHostException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -78,7 +81,7 @@ public class EnvironmentDetails extends HttpServlet {
         return result;
     }
 
-    public static String getEnvironmentInfosExport(APISession session) throws NoSuchMethodException, IllegalAccessException, java.lang.reflect.InvocationTargetException, UnknownHostException, BonitaHomeNotSetException, UnknownAPITypeException, ServerAPIException, MonitoringException, UnavailableInformationException {
+    public static String getEnvironmentInfosExport(APISession session, File setupFile) throws NoSuchMethodException, IllegalAccessException, java.lang.reflect.InvocationTargetException, UnknownHostException, BonitaHomeNotSetException, UnknownAPITypeException, ServerAPIException, MonitoringException, UnavailableInformationException {
 
         String result = "";
 
@@ -88,7 +91,11 @@ public class EnvironmentDetails extends HttpServlet {
 
         result = result.concat( "Parameter;value;\n" );
 
-        result = result.concat( "operatingSystemInfos;" + platformMonitoringAPI.getOSName() + " - " + platformMonitoringAPI.getOSVersion() + ";\n" );
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        result = result.concat( "SystemDate;" + dtf.format(now) + ";\n" );
+
+        result = result.concat( "OperatingSystemInfos;" + platformMonitoringAPI.getOSName() + " - " + platformMonitoringAPI.getOSVersion() + ";\n" );
 
         if (System.getProperty( "catalina.base" ) != null && System.getProperty( "catalina.base" ).contains( "tomcat" )) {
             result = result.concat( "WebServer;" + "Tomcat" + ";\n" );
@@ -96,11 +103,11 @@ public class EnvironmentDetails extends HttpServlet {
             result = result.concat( "WebServer;" + "Wildfly" + ";\n" );
         }
 
-        result = result.concat( "javaMachine;" + platformMonitoringAPI.getJvmName() + " " + platformMonitoringAPI.getJvmVersion() + ";\n" );
+        result = result.concat( "JavaMachine;" + platformMonitoringAPI.getJvmName() + " " + platformMonitoringAPI.getJvmVersion() + ";\n" );
 
-        result = result.concat( "memoryUsage;" + platformMonitoringAPI.getMemoryUsagePercentage() + " % " + ";\n" );
+        result = result.concat( "MemoryUsage;" + platformMonitoringAPI.getMemoryUsagePercentage() + " % " + ";\n" );
 
-        result = result.concat( "availableProcessors;" + platformMonitoringAPI.getAvailableProcessors() + ";\n" );
+        result = result.concat( "AvailableProcessors;" + platformMonitoringAPI.getAvailableProcessors() + ";\n" );
 
         result = result.concat( "MemUsage;" + platformMonitoringAPI.getCurrentMemoryUsage() / 1024 + ";\n" );
 

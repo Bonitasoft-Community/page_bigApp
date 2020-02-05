@@ -157,7 +157,7 @@ appCommand.controller('BigAppControler',
          }
                     // Run the initialization SetupConfiguration when the page is displayed
 
-        this.currentTime = "123";
+        this.currentTime = Date.now();
         this.checkVar = "";
         this.setListLogs= function(value, check) {
             if(check && !this.listLogFiles.includes(value)) {
@@ -167,11 +167,31 @@ appCommand.controller('BigAppControler',
             }
         }
 
+        this.selectRowValue = false;
+        this.setSelectRow= function(_this) {
+                    this.selectRowValue = !this.selectRowValue;
+                    //if(selectRowValue) {
+                        //this.style.backgroundColor='#dd0033';this.style.color='white';
+                    //} else {
+                    //    this.style.backgroundColor='white';this.style.color='#2c3e50';
+                    //}
+        }
+
         this.pullConfActivated = false;
         this.setPullFunc= function() {
                 this.pullConfActivated = !this.pullConfActivated;
         }
 
+
+// ------------------------------------------------------------------------------
+	//    Timer
+	// ------------------------------------------------------------------------------
+	this.getLogStyle = function( selected ) {
+        if (selected) {
+            return 'background-color: #dd0033; color: #ffffff' }
+        else {
+            return 'background-color: #ffffff; color: #2c3e50' }
+    }
 
 	// ------------------------------------------------------------------------------
 	//    Timer
