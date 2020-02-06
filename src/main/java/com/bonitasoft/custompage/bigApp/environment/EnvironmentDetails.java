@@ -93,7 +93,7 @@ public class EnvironmentDetails extends HttpServlet {
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
-        result = result.concat( "SystemDate;" + dtf.format(now) + ";\n" );
+        result = result.concat( "SystemDateUTC;" + dtf.format(now) + ";\n" );
 
         result = result.concat( "OperatingSystemInfos;" + platformMonitoringAPI.getOSName() + " - " + platformMonitoringAPI.getOSVersion() + ";\n" );
 

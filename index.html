@@ -124,13 +124,15 @@
 									<td width="40%"  onclick="if ( this.style.backgroundColor=='' && this.style.color=='' ) { this.style.backgroundColor='#DD0033'; this.style.color='#F9F9F9'; } else { if( this.style.backgroundColor=='rgb(221, 0, 51)' && this.style.color=='rgb(249, 249, 249)' ) { this.style.backgroundColor='#F9F9F9'; this.style.color='#2C3E50'; } else { this.style.backgroundColor='#DD0033'; this.style.color='#F9F9F9'; } }" ng-model="mapFile.selected" align="center" ng-click="count = !count; ctrl.setListLogs(mapFile.name,count)">
 									{{mapFile.name}}
 								</td>-->
+
 								<tr ng-repeat="mapFile in ctrl.getLogsPage()">
+									<td width="30%"></td>
 									<td width="40%" align="center" ng-click="mapFile.selected=!mapFile.selected; ctrl.setListLogs(mapFile.name, mapFile.selected)"
 										style="{{ ctrl.getLogStyle(mapFile.selected) }}">
 											{{mapFile.name}}
 									</td>
 
-									<!--<td width="30%"></td>-->
+									<td width="30%"></td>
 								</tr>
 							</center>
 						</table>
@@ -138,8 +140,8 @@
 							<pagination ng-show="true" ng-model="ctrl.logPagination.pageNumber" total-items="ctrl.logPagination.totalItems" items-per-page="ctrl.logPagination.itemsPerPage">
 							</pagination><br/>
 						<center>
-							<input ng-model="mapFile.selected" ng-change="ctrl.setPullFunc(); showVar = true" ng-init="showVar=false" type="checkbox"/><b> Include the setup configuration files</b> <br/><br/>
-							<a  class="btn btn-primary" href="?page=custompage_bigapp&action=getSetupConfiguration&listLogs={{ctrl.listLogFiles.toString()}}&pullConfActivated={{ctrl.pullConfActivated}}&t={{ctrl.currentTime}}">Download Files</a>
+							<input ng-model="mapFile.selected" type="checkbox" ng-init="mapFile.selected=true" ng-change="ctrl.pullConfActivated=!ctrl.pullConfActivated" onchange="{{ ctrl.pullConfActivated = ( mapFile.selected == '' ) ? !ctrl.pullConfActivated : ( mapFile.selected == 'false' ) ? false : true ; ctrl.getCheckboxValue(mapFile.selected) }}" /><b> Include the setup configuration files</b> <br/><br/>
+							<a  class="btn btn-primary" href="?page=custompage_bigapp&action=getSetupConfiguration&listLogs={{ctrl.listLogFiles.toString()}}&pullConfActivated={{ ctrl.pullConfActivated }}&t={{ctrl.currentTime}}">Download Files</a>
 						</center>
 					</div>
 				</div>

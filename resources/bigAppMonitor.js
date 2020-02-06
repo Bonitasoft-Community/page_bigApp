@@ -177,21 +177,37 @@ appCommand.controller('BigAppControler',
                     //}
         }
 
-        this.pullConfActivated = false;
-        this.setPullFunc= function() {
-                this.pullConfActivated = !this.pullConfActivated;
-        }
-
-
 // ------------------------------------------------------------------------------
-	//    Timer
+	//    getLogStyle
 	// ------------------------------------------------------------------------------
 	this.getLogStyle = function( selected ) {
         if (selected) {
-            return 'background-color: #dd0033; color: #ffffff' }
+            return 'background-color: #2c3e50; color: #ffffff' }
         else {
             return 'background-color: #ffffff; color: #2c3e50' }
     }
+
+
+
+    // ------------------------------------------------------------------------------
+    //    getCheckboxValue
+    // ------------------------------------------------------------------------------
+        this.pullConfActivated = true;
+
+        this.getPullConfAct = function() {
+            this.pullConfActivated = !this.pullConfActivated;
+        }
+
+    	this.getCheckboxValue = function( value ) {
+            if( value == '') {
+                return 'false'
+            } else {
+                if ( value == false ) {
+                    return 'false' }
+                else {
+                    return 'true' }
+            }
+        }
 
 	// ------------------------------------------------------------------------------
 	//    Timer

@@ -190,7 +190,9 @@ public class Actions {
                 String listLogs = request.getParameter("listLogs");
                 Boolean pullConfActivated = Boolean.parseBoolean(request.getParameter("pullConfActivated"));
 
-                response.addHeader("content-disposition", "attachment; filename=BonitaConfigFiles.zip");
+
+
+                response.addHeader("content-disposition", "attachment; filename=BonitaConfigFiles-"+ System.currentTimeMillis() +".zip");
                 response.addHeader("content-type", "application/zip");
 
                 CollectResultDecoZip.ResultZip resultZip = SetupConfiguration.getSetupConfiguration(pageDirectory, session, listLogs, pullConfActivated);
