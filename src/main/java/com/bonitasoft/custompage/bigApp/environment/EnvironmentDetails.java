@@ -18,6 +18,7 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.OperatingSystemMXBean;
 import java.lang.reflect.Method;
 import java.net.UnknownHostException;
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -29,7 +30,7 @@ public class EnvironmentDetails extends HttpServlet {
     static String catalinaBase = System.getProperty( "catalina.base" );
     static String jBossBase = System.getProperty( "jboss.server.config.dir" );
 
-    public static Map<String, Object> getEnvironment(APISession session) throws FileNotFoundException, UnknownHostException, BonitaHomeNotSetException, UnknownAPITypeException, ServerAPIException, MonitoringException, UnavailableInformationException {
+    public static Map<String, Object> getEnvironment(APISession session) throws java.lang.IllegalAccessException, java.lang.reflect.InvocationTargetException, NoSuchMethodException, FileNotFoundException, UnknownHostException, BonitaHomeNotSetException, UnknownAPITypeException, ServerAPIException, MonitoringException, UnavailableInformationException {
 
         Map<String, Object> result = new HashMap<String, Object>();
 
@@ -41,9 +42,18 @@ public class EnvironmentDetails extends HttpServlet {
 
         result.put( "javaMachine", platformMonitoringAPI.getJvmName() + " " + platformMonitoringAPI.getJvmVersion() );
 
-        result.put( "memoryUsage", platformMonitoringAPI.getMemoryUsagePercentage() + " % " );
+        OperatingSystemMXBean operatingSystemMXBean = ManagementFactory.getOperatingSystemMXBean();
+        Method getTotalPhysicalMemorySizeMethod = operatingSystemMXBean.getClass().getMethod("getTotalPhysicalMemorySize", null);
+        getTotalPhysicalMemorySizeMethod.setAccessible(true);
+        Object totalPhysicalMemorySizeValue = getTotalPhysicalMemorySizeMethod.invoke(operatingSystemMXBean);
+        DecimalFormat df = new DecimalFormat();
+        df.setMaximumFractionDigits(2);
 
-        result.put( "availableProcessors", platformMonitoringAPI.getAvailableProcessors() );
+        result.put( "MemTotalPhysicalMemory", df.format(Double.valueOf(totalPhysicalMemorySizeValue.toString()) / (1024 * 1024 * 1024)) );
+
+        df = new DecimalFormat();
+        df.setMaximumFractionDigits(2);
+        result.put( "memoryUsage", df.format( platformMonitoringAPI.getMemoryUsagePercentage()) + " % " );
 
         if (catalinaBase != null && StringUtils.containsIgnoreCase( catalinaBase, "Tomcat" )) {
 

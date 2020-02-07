@@ -18,6 +18,8 @@ import org.json.simple.JSONValue
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 import javax.servlet.http.HttpSession
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.logging.Logger
 
 public class Actions {
@@ -190,9 +192,10 @@ public class Actions {
                 String listLogs = request.getParameter("listLogs");
                 Boolean pullConfActivated = Boolean.parseBoolean(request.getParameter("pullConfActivated"));
 
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+                LocalDateTime now = LocalDateTime.now();
 
-
-                response.addHeader("content-disposition", "attachment; filename=BonitaConfigFiles-"+ System.currentTimeMillis() +".zip");
+                response.addHeader("content-disposition", "attachment; filename=BonitaConfigurationExtract"+ dtf.format(now) +".zip");
                 response.addHeader("content-type", "application/zip");
 
                 CollectResultDecoZip.ResultZip resultZip = SetupConfiguration.getSetupConfiguration(pageDirectory, session, listLogs, pullConfActivated);

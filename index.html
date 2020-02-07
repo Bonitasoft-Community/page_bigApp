@@ -81,7 +81,7 @@
 			</div>
 			<div class="col-lg-4">
 				<div class="panel panel-custom">
-					<div class="panel-heading">Environmental information</div>
+					<div class="panel-heading"><strong>Environmental information</strong></div>
 					<div class="panel-body">
 						<table>
 							<tr>
@@ -97,12 +97,12 @@
 								<td><center>{{ctrl.environment.javaMachine}}</center></td>
 							</tr>
 							<tr>
-								<td>Memory usage</td>
-								<td><center>{{ctrl.environment.memoryUsage}}</center></td>
+								<td>Total physical memory</td>
+								<td><center>{{ctrl.environment.MemTotalPhysicalMemory}} Gb</center></td>
 							</tr>
 							<tr>
-								<td>Available processors</td>
-								<td><center>{{ctrl.environment.availableProcessors}}</center></td>
+								<td>Memory usage</td>
+								<td><center>{{ctrl.environment.memoryUsage}}</center></td>
 							</tr>
 						</table>
 					</div>
@@ -116,7 +116,7 @@
 				</div>
 				<div class="col-lg-6">
 				<div class="panel panel-custom">
-					<div class="panel-heading">Log Files</div>
+					<div class="panel-heading"><strong>Log files</strong></div>
 					<div class="panel-body">
 						<table  class="table table-striped table-bordered" style="width:100%">
 							<center>
@@ -140,7 +140,7 @@
 							<pagination ng-show="true" ng-model="ctrl.logPagination.pageNumber" total-items="ctrl.logPagination.totalItems" items-per-page="ctrl.logPagination.itemsPerPage">
 							</pagination><br/>
 						<center>
-							<input ng-model="mapFile.selected" type="checkbox" ng-init="mapFile.selected=true" ng-change="ctrl.pullConfActivated=!ctrl.pullConfActivated" onchange="{{ ctrl.pullConfActivated = ( mapFile.selected == '' ) ? !ctrl.pullConfActivated : ( mapFile.selected == 'false' ) ? false : true ; ctrl.getCheckboxValue(mapFile.selected) }}" /><b> Include the setup configuration files</b> <br/><br/>
+							<input ng-model="mapFile.selected" type="checkbox" ng-init="mapFile.selected=true" ng-change="ctrl.pullConfActivated=!ctrl.pullConfActivated" onchange="{{ ctrl.pullConfActivated = ( mapFile.selected == '' ) ? !ctrl.pullConfActivated : ( mapFile.selected == 'false' ) ? false : true ; ctrl.getCheckboxValue(mapFile.selected) }}" /><b> Include configuration files</b> <br/><br/>
 							<a  class="btn btn-primary" href="?page=custompage_bigapp&action=getSetupConfiguration&listLogs={{ctrl.listLogFiles.toString()}}&pullConfActivated={{ ctrl.pullConfActivated }}&t={{ctrl.currentTime}}">Download Files</a>
 						</center>
 					</div>
