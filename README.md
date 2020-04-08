@@ -20,18 +20,16 @@ As its name indicates, this button is responsible for generating and downloading
 
 ## How to install BigApp on your server?
 
-1) Log in as Administrator
+1) Download the latest version of bigApp from the Release tab;
 
-2) Go to "Resources" then Click on "Add" on the left of the page
+2) Log in as Administrator
 
-3) Import "custompage_bigapp.zip" then click on "Next" and then "Confirm"
+3) Go to "Resources" then Click on "Add" on the left of the page ;
 
-4) Go to "Applications", click on "New" and create a new application
+4) Import "custompage_bigapp.zip" then click on "Next" and then "Confirm" ;
 
-5) On the newely created application click in the three dots (actions column)
+5) Dowload the applicationDescriptorFile of BigApp by right-click [here](https://raw.githubusercontent.com/Bonitasoft-Community/page_bigApp/master/applicationDescriptorFile.xml) and select the "Save content as..." ;
 
-6) Go to "Pages", click on "Add" and choose "custompage_bigapp - BigApp" and choose a name for the URL (Example : http://localhost:8080/bonita/apps/bigApp/bigAppPage/)
+6) Go to "Applications", click on "Import" and select the .xml file saved on the last step ;
 
-7) On "Pages" click on "Set as Home page" (above the house icon).
-
-8) Finally, access the newly application using the URL that you previously set.
+7) Finally, access the newly application using the URL "../bonita/apps/bigApp/BonitaGatheringApp/"
