@@ -3,15 +3,15 @@
 
 ## What BigApp does?
 
-This page's main goal is to retrieve information needed (environment information, log files, configuration files) to troubleshoot issues on the product.
+This page's main goal is to retrieve information (as environmental information, log files, configuration files) to troubleshoot potential issues on the product.
 
 <img src="ScreenshotBigApp.png"/>
 
 ## What each section of BigApp do?
-* Environment Details:
-This section contains general information about the server where your bonita application is installed on.. More information is included in the final Zip file, but only the most relevant ones are displayed on the page.
+* Environmental information:
+This section contains general information about the server where your bonita application is installed on. More information is included in the final Zip file, but only the most relevant ones are displayed on the page.
 * Log Files:
-This section contains log files that the user could select so they will be added in the final Zip file.
+This section contains log files that the user could select so they will be added in the final Zip file. PS: Current day's logs are auto-selected, but the user could unselect them if needed.
 * Setup Configuration:
 When the checkbox is enabled a "setup.[sh|bat] pull" is performed so the configuration files are added into the final Zip that users can download. When the checkbox is not enabled, only log files and environmental details are included in the final Zip file.
 
