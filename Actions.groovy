@@ -5,15 +5,17 @@ import com.bonitasoft.custompage.bigApp.groovymaintenance.GroovyMaintenance
 import com.bonitasoft.custompage.bigApp.logs.Logs
 import com.bonitasoft.custompage.bigApp.setupconfiguration.SetupConfiguration
 import com.bonitasoft.engine.api.TenantAPIAccessor
-import org.bonitasoft.console.common.server.page.PageContext
-import org.bonitasoft.console.common.server.page.PageResourceProvider
+
 import org.bonitasoft.engine.api.*
 import org.bonitasoft.engine.session.APISession
 import org.bonitasoft.serverconfiguration.CollectResultDecoZip
 import org.bonitasoft.web.extension.ResourceProvider
+import org.bonitasoft.web.extension.page.PageContext
+import org.bonitasoft.web.extension.page.PageResourceProvider
 import org.bonitasoft.web.extension.rest.RestAPIContext
 import org.codehaus.groovy.control.CompilerConfiguration
 import org.json.simple.JSONValue
+
 
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse

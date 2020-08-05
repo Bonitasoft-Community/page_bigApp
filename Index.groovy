@@ -1,48 +1,12 @@
-import java.lang.management.RuntimeMXBean;
-import java.lang.management.ManagementFactory;
+import org.bonitasoft.web.extension.page.PageContext;
+import org.bonitasoft.web.extension.page.PageController;
+import org.bonitasoft.web.extension.page.PageResourceProvider;
+
+import org.json.simple.JSONValue
 
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
-import java.text.SimpleDateFormat;
-import java.util.logging.Logger;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.PrintWriter;
-import java.lang.Runtime;
-
-import org.json.simple.JSONObject;
-import org.codehaus.groovy.tools.shell.CommandAlias;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONValue;
-
-
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import javax.sql.DataSource;
-import java.sql.DatabaseMetaData;
-
-import org.apache.commons.lang3.StringEscapeUtils
- 
-import org.bonitasoft.engine.identity.User;
-import org.bonitasoft.console.common.server.page.PageContext
-import org.bonitasoft.console.common.server.page.PageController
-import org.bonitasoft.console.common.server.page.PageResourceProvider
-import org.bonitasoft.engine.exception.AlreadyExistsException;
-import org.bonitasoft.engine.exception.BonitaHomeNotSetException;
-import org.bonitasoft.engine.exception.CreationException;
-import org.bonitasoft.engine.exception.DeletionException;
-import org.bonitasoft.engine.exception.ServerAPIException;
-import org.bonitasoft.engine.exception.UnknownAPITypeException;
-
-import com.bonitasoft.engine.api.TenantAPIAccessor;
-import org.bonitasoft.engine.session.APISession;
-
-
+import java.util.logging.Logger
 
 public class Index implements PageController {
 

@@ -127,8 +127,8 @@
 
 								<tr ng-repeat="mapFile in ctrl.getLogsPage()">
 									<td width="30%"></td>
-									<td width="40%" align="center" ng-click="mapFile.selected=!mapFile.selected; ctrl.setListLogs(mapFile.name, mapFile.selected)"
-										style="{{ ctrl.getLogStyle(mapFile.selected) }}">
+									<td width="40%" align="center" ng-click="mapFile.selected=!mapFile.selected; mapFile.selected=ctrl.setListLogs(mapFile.name, mapFile.selected)"
+										style="{{ ctrl.getLogStyle(mapFile.name, mapFile.selected) }}">
 											{{mapFile.name}}
 									</td>
 

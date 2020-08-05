@@ -99,7 +99,7 @@ public class EnvironmentDetails extends HttpServlet {
 
         // Prepare the data that will be available for download
 
-        result = result.concat( "Parameter;value;\n" );
+        result = result.concat( "Parameter;Value;\n" );
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
@@ -124,9 +124,9 @@ public class EnvironmentDetails extends HttpServlet {
         OperatingSystemMXBean operatingSystemMXBean = ManagementFactory.getOperatingSystemMXBean();
         Method getFreePhysicalMemorySizeMethod = operatingSystemMXBean.getClass().getMethod("getFreePhysicalMemorySize", null);
         getFreePhysicalMemorySizeMethod.setAccessible(true);
-        Object FreePhysicalMemorySizeValue = getFreePhysicalMemorySizeMethod.invoke(operatingSystemMXBean);
+        Object freePhysicalMemorySizeValue = getFreePhysicalMemorySizeMethod.invoke(operatingSystemMXBean);
 
-        result = result.concat( "FreePhysicalMemorySize;" + FreePhysicalMemorySizeValue + ";\n" );
+        result = result.concat( "FreePhysicalMemorySize;" + freePhysicalMemorySizeValue + ";\n" );
 
         operatingSystemMXBean = ManagementFactory.getOperatingSystemMXBean();
         Method getFreeSwapSpaceSizeMethod = operatingSystemMXBean.getClass().getMethod("getFreeSwapSpaceSize", null);
@@ -138,9 +138,9 @@ public class EnvironmentDetails extends HttpServlet {
         operatingSystemMXBean = ManagementFactory.getOperatingSystemMXBean();
         Method getTotalPhysicalMemorySizeMethod = operatingSystemMXBean.getClass().getMethod("getTotalPhysicalMemorySize", null);
         getTotalPhysicalMemorySizeMethod.setAccessible(true);
-        Object TotalPhysicalMemorySizeValue = getTotalPhysicalMemorySizeMethod.invoke(operatingSystemMXBean);
+        Object totalPhysicalMemorySizeValue = getTotalPhysicalMemorySizeMethod.invoke(operatingSystemMXBean);
 
-        result = result.concat( "MemTotalPhysicalMemory;" + TotalPhysicalMemorySizeValue + ";\n" );
+        result = result.concat( "MemTotalPhysicalMemory;" + totalPhysicalMemorySizeValue + ";\n" );
 
         operatingSystemMXBean = ManagementFactory.getOperatingSystemMXBean();
         Method getTotalSwapSpaceSize = operatingSystemMXBean.getClass().getMethod("getTotalSwapSpaceSize", null);

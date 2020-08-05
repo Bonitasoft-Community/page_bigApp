@@ -111,7 +111,7 @@ public class SetupConfiguration {
 
         File environmentDetailsCSV = null;
         String content = EnvironmentDetails.getEnvironmentInfosExport( session, setupFile);
-        environmentDetailsCSV = new File( "environmentDetails.csv" );
+        environmentDetailsCSV = new File( "EnvironmentalInformation.csv" );
         environmentDetailsCSV.createNewFile();
         addFileToZip( zos, environmentDetailsCSV, content );
 

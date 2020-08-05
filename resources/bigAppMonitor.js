@@ -115,17 +115,6 @@ appCommand.controller('BigAppControler',
             return this.logs.slice(begin, end);
         }
 
-        /*this.listLogsCheckbox = [];
-        this.setLogsList = function() {Nto
-        //alert(this.arrlist);
-                    for(var i=0; i < this.arrlist.length; i++){
-                        this.listLogsCheckbox.push(this.arrlist);
-                    }
-                    //alert(this.logs.length);
-                    return this.listLogsCheckbox;
-        }
-        this.setLogsList();*/
-
 
         // ------------------------------------------------------------------------------
         //    Setup Configuration
@@ -137,7 +126,7 @@ appCommand.controller('BigAppControler',
 
                    var self=this;
                    self.inprogress=true;
-                   alert(this.listLogFiles.toString());
+
                    $http.get( '?page=custompage_bigapp&action=getSetupConfiguration&t='+Date.now() )
                    .success( function ( jsonResult, statusHttp, headers, config ) {
                         					// connection is lost ?
@@ -160,11 +149,21 @@ appCommand.controller('BigAppControler',
         this.currentTime = Date.now();
         this.checkVar = "";
         this.setListLogs= function(value, check) {
+        this.logStyleFlag = 1;
+
+            if(check && this.listLogFiles.includes(value)) {
+
+                this.listLogFiles.splice (this.listLogFiles.indexOf(value), 1);
+                    check=false;
+            }
             if(check && !this.listLogFiles.includes(value)) {
+
                 this.listLogFiles.push(value);
             } else if(!check && this.listLogFiles.includes(value)) {
+
                 this.listLogFiles.splice (this.listLogFiles.indexOf(value), 1);
             }
+            return check;
         }
 
         this.selectRowValue = false;
@@ -180,14 +179,25 @@ appCommand.controller('BigAppControler',
 // ------------------------------------------------------------------------------
 	//    getLogStyle
 	// ------------------------------------------------------------------------------
-	this.getLogStyle = function( selected ) {
+	this.logStyleFlag = 0;
+	this.getLogStyle = function(value, selected) {
+	var date = new Date().getFullYear()+'-'+("0"+(new Date().getMonth()+1)).slice(-2)+'-'+("0"+new Date().getDate()).slice(-2);
+
+            if(value.includes(date) && this.logStyleFlag==0) {
+
+                if(!this.listLogFiles.includes(value)) {
+                    this.listLogFiles.push(value);
+                }
+                selected = true;
+            } else if (this.listLogFiles.includes(value) && this.logStyleFlag==1) {
+
+                    selected = true;
+            }
         if (selected) {
             return 'background-color: #2c3e50; color: #ffffff' }
         else {
             return 'background-color: #ffffff; color: #2c3e50' }
     }
-
-
 
     // ------------------------------------------------------------------------------
     //    getCheckboxValue
