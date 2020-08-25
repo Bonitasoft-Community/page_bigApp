@@ -3,40 +3,40 @@
 	<groupId>com.bonitasoft.custompage</groupId>
 	<artifactId>CustomPageBigApp</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0.1</version>
+	<version>1.2.0</version>
 	<name>CustomPageBigApp</name>
 
 	<properties>
-		<bonita.version>7.9.4</bonita.version>
+		<bonita.version>7.10.4</bonita.version>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<maven.compiler.source>1.8</maven.compiler.source>
 	</properties>
 
 	<dependencies>
-		<!-- mvn install:install-file -Dfile=bonita-client-sp-7.9.4.jar -DgroupId=com.bonitasoft.engine -DartifactId=bonita-client -Dversion=7.9.4 -Dpackaging=jar -->
+		<!-- mvn install:install-file -Dfile=bonita-client-sp-7.10.4.jar -DgroupId=com.bonitasoft.engine -DartifactId=bonita-client -Dversion=7.10.4 -Dpackaging=jar -->
 		<dependency>
 			<groupId>com.bonitasoft.engine</groupId>
 			<artifactId>bonita-client</artifactId>
-			<version>7.9.2</version>
+			<version>${bonita.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.bonitasoft.engine</groupId>
 			<artifactId>bonita-server</artifactId>
-			<version>7.9.4</version>
+			<version>${bonita.version}</version>
 			<scope>provided</scope>
 		</dependency>
-		 <!--  mvn install:install-file -Dfile=bonita-common-sp-7.9.4.jar -DgroupId=com.bonitasoft.engine -DartifactId=bonita-common -Dversion=7.9.4 -Dpackaging=jar -->
+		 <!--  mvn install:install-file -Dfile=bonita-common-sp-7.10.4.jar -DgroupId=com.bonitasoft.engine -DartifactId=bonita-common -Dversion=7.10.4 -Dpackaging=jar -->
 		<dependency>
 			<groupId>com.bonitasoft.engine</groupId>
 			<artifactId>bonita-common</artifactId>
-			<version>7.9.2</version>
+			<version>${bonita.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.bonitasoft.log.event</groupId>
 			<artifactId>bonita-event</artifactId>
-			<version>1.5.0</version>
+			<version>1.9.0</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -66,7 +66,7 @@
 		<dependency>
 			<groupId>org.bonitasoft.engine</groupId>
 			<artifactId>bonita-client</artifactId>
-			<version>7.9.4</version>
+			<version>${bonita.version}</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -79,7 +79,7 @@
 		<dependency>
 			<groupId>org.bonitasoft.serverconfiguration</groupId>
 			<artifactId>bonita-serverconfiguration</artifactId>
-			<version>1.2.0</version>
+			<version>1.6.0</version>
 		</dependency>
 	</dependencies>
 

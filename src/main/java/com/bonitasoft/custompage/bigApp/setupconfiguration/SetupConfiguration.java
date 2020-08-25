@@ -61,7 +61,7 @@ public class SetupConfiguration {
 
 
         // now, collect result
-        CollectResult collectResult = currentConfig.collectParameters( collectParameter, CollectResult.COLLECTLOGSTRATEGY.LOGALL );
+        CollectResult collectResult = currentConfig.collectParameters( collectParameter, CollectResult.COLLECTLOGSTRATEGY.LOGALL, null);
         finalResultZip.listEvents.addAll( collectResult.getErrors() );
 
         // I want the result in JSON, so use a ResultDecoMap
@@ -94,7 +94,7 @@ public class SetupConfiguration {
             ResultZip resultZip = new ResultZip();
                 filesParentsDirectoryMap.forEach((fileToZip, parentDirectoryName) -> {
                     for(File file : fileToZip.listFiles()) {
-                        CollectResultDecoZip.ResultZip resultZipDeco = decoZip.addDirectoryToZip( zos, file, resultZip, parentDirectoryName );
+                        CollectResultDecoZip.ResultZip resultZipDeco = decoZip.addDirectoriesToZip( zos, file, resultZip, parentDirectoryName );
                         finalResultZip.listEvents.addAll( resultZipDeco.listEvents );
                     }
                 });

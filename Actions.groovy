@@ -1,5 +1,3 @@
-import com.bonitasoft.custompage.bigApp.Timer
-import com.bonitasoft.custompage.bigApp.Timer.MethodResetTimer
 import com.bonitasoft.custompage.bigApp.environment.EnvironmentDetails
 import com.bonitasoft.custompage.bigApp.groovymaintenance.GroovyMaintenance
 import com.bonitasoft.custompage.bigApp.logs.Logs
@@ -209,25 +207,6 @@ public class Actions {
                 output.close();
                 return actionAnswer;
 
-            } else if ("getmissingtimer".equals(action)) {
-                actionAnswer.setResponse(Timer.getMissingTimers(false, processAPI));
-            } else if ("createmissingtimers".equals(action)) {
-                String typecreation = request.getParameter("typecreation");
-                MethodResetTimer methodResetTimer = null;
-                if ("handle".equals(typecreation))
-                    methodResetTimer = MethodResetTimer.Handle;
-                else if ("recreate".equals(typecreation))
-                    methodResetTimer = MethodResetTimer.Recreate;
-                else if ("retrytask".equals(typecreation))
-                    methodResetTimer = MethodResetTimer.RetryTask;
-                else if ("executeTask".equals(typecreation))
-                    methodResetTimer = MethodResetTimer.ExecuteTask;
-
-                InputStream is = pageResourceProvider.getResourceAsStream("lib/CustomPageTowTruck-1.0.1.jar");
-
-                actionAnswer.setResponse(Timer.createMissingTimers(methodResetTimer, is, processAPI, commandAPI, null));
-            } else if ("deletetimers".equals(action)) {
-                actionAnswer.setResponse(Timer.deleteTimers(processAPI));
             } else if ("groovyload".equals(action)) {
                 String groovyCode = request.getParameter("code");
                 actionAnswer.responseMap = GroovyMaintenance.getGroovyMaintenance(request, groovyCode, pageDirectory);
