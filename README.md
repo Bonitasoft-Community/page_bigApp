@@ -28,7 +28,7 @@ As its name indicates, this button is responsible for generating and downloading
 
 4) Import "custompage_bigapp.zip" then click on "Next" and then "Confirm" ;
 
-5) Dowload the applicationDescriptorFile of BigApp by right-click [here](https://raw.githubusercontent.com/Bonitasoft-Community/page_bigApp/master/applicationDescriptorFile.xml) and select the "Save content as..." ;
+5) Download the applicationDescriptorFile of BigApp by right-click [here](https://raw.githubusercontent.com/Bonitasoft-Community/page_bigApp/master/BigAppApplicationDescriptorFile.xml) and select the "Save content as..." ;
 
 6) Go to "Applications", click on "Import" and select the .xml file saved on the last step ;
 
