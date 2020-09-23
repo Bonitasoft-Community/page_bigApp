@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <applications xmlns="http://documentation.bonitasoft.com/application-xml-schema/1.0">
-    <application token="bigApp" version="1.0" profile="User" homePage="BonitaGatheringApp" state="ACTIVATED" layout="custompage_layoutBonita" theme="custompage_bootstrapdefaulttheme">
+    <application token="bigApp" version="1.2" profile="Administrator" homePage="BonitaGatheringApp" state="ACTIVATED" layout="custompage_layoutBonita" theme="custompage_bootstrapdefaulttheme">
         <displayName>bigAppPage</displayName>
         <description></description>
         <iconPath></iconPath>
