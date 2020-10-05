@@ -82,17 +82,28 @@ public class SetupConfiguration {
         File setupFile = new File( localBonitaConfig.getRootPath() + "/setup" );
         File serverConfFile = new File( localBonitaConfig.getRootPath() + "/server/conf" );
         File serverBinFile = new File( localBonitaConfig.getRootPath() + "/server/bin" );
+        File serverStandaloneConfFile = new File( localBonitaConfig.getRootPath() + "/server/standalone/configuration" );
+        File serverModulesOrgFile = new File( localBonitaConfig.getRootPath() + "/server/modules/org" );
+        File serverModulesComFile = new File( localBonitaConfig.getRootPath() + "/server/modules/com" );
 
         // Create a list with the files we want in the final zip file + The parent directory they're located at
         Map<File, String> filesParentsDirectoryMap = new HashMap<>();
         filesParentsDirectoryMap.put( setupFile, "/setup" );
-        filesParentsDirectoryMap.put( serverBinFile, "/server/bin" );
         if (serverTomcat) {
             filesParentsDirectoryMap.put( serverConfFile, "/server/conf" );
+            filesParentsDirectoryMap.put( serverBinFile, "/server/bin" );
+        } else {
+            filesParentsDirectoryMap.put( serverStandaloneConfFile, "/server/standalone/configuration" );
+            if (null != serverModulesOrgFile && 0 != serverModulesOrgFile.length()) {
+                filesParentsDirectoryMap.put( serverModulesOrgFile, "/server/modules/org" );
+            }
+            if (null != serverModulesComFile && 0 != serverModulesComFile.length()) {
+                filesParentsDirectoryMap.put( serverModulesComFile, "/server/modules/com" );
+            }
         }
 
         // Adds Environmental information
-        addEnvironmentDetails( zos, session, setupFile);
+        addEnvironmentDetails( zos, session, setupFile );
 
         // Adds Log files selected by the user
         addLogFiles( zos, session, listLogs );
