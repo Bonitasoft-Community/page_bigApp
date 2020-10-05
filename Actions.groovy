@@ -3,7 +3,6 @@ import com.bonitasoft.custompage.bigApp.groovymaintenance.GroovyMaintenance
 import com.bonitasoft.custompage.bigApp.logs.Logs
 import com.bonitasoft.custompage.bigApp.setupconfiguration.SetupConfiguration
 import com.bonitasoft.engine.api.TenantAPIAccessor
-
 import org.bonitasoft.engine.api.*
 import org.bonitasoft.engine.session.APISession
 import org.bonitasoft.serverconfiguration.CollectResultDecoZip
@@ -13,7 +12,6 @@ import org.bonitasoft.web.extension.page.PageResourceProvider
 import org.bonitasoft.web.extension.rest.RestAPIContext
 import org.codehaus.groovy.control.CompilerConfiguration
 import org.json.simple.JSONValue
-
 
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
@@ -195,7 +193,7 @@ public class Actions {
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
                 LocalDateTime now = LocalDateTime.now();
 
-                response.addHeader("content-disposition", "attachment; filename=BonitaConfigurationExtract"+ dtf.format(now) +".zip");
+                response.addHeader("content-disposition", "attachment; filename=BigAppExtract" + dtf.format(now) + ".zip");
                 response.addHeader("content-type", "application/zip");
 
                 CollectResultDecoZip.ResultZip resultZip = SetupConfiguration.getSetupConfiguration(pageDirectory, session, listLogs, pullConfActivated);

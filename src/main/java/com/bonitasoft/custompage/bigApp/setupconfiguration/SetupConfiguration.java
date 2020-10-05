@@ -18,7 +18,10 @@ import org.bonitasoft.serverconfiguration.referentiel.BonitaConfigPath;
 
 import java.io.*;
 import java.net.UnknownHostException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -78,7 +81,7 @@ public class SetupConfiguration {
         ZipOutputStream zos = new ZipOutputStream( finalResultZip.zipContent );
 
         // Create the files that we want to add into the result file zip
-        List<File> filesList = new ArrayList<File>();
+        String finalZipMainDirectoryStr = "/BigAppConfExtract";
         File setupFile = new File( localBonitaConfig.getRootPath() + "/setup" );
         File serverConfFile = new File( localBonitaConfig.getRootPath() + "/server/conf" );
         File serverBinFile = new File( localBonitaConfig.getRootPath() + "/server/bin" );
@@ -88,17 +91,17 @@ public class SetupConfiguration {
 
         // Create a list with the files we want in the final zip file + The parent directory they're located at
         Map<File, String> filesParentsDirectoryMap = new HashMap<>();
-        filesParentsDirectoryMap.put( setupFile, "/setup" );
+        filesParentsDirectoryMap.put( setupFile, finalZipMainDirectoryStr + "/setup" );
         if (serverTomcat) {
-            filesParentsDirectoryMap.put( serverConfFile, "/server/conf" );
-            filesParentsDirectoryMap.put( serverBinFile, "/server/bin" );
+            filesParentsDirectoryMap.put( serverConfFile, finalZipMainDirectoryStr + "/server/conf" );
+            filesParentsDirectoryMap.put( serverBinFile, finalZipMainDirectoryStr + "/server/bin" );
         } else {
-            filesParentsDirectoryMap.put( serverStandaloneConfFile, "/server/standalone/configuration" );
+            filesParentsDirectoryMap.put( serverStandaloneConfFile, finalZipMainDirectoryStr + "/server/standalone/configuration" );
             if (null != serverModulesOrgFile && 0 != serverModulesOrgFile.length()) {
-                filesParentsDirectoryMap.put( serverModulesOrgFile, "/server/modules/org" );
+                filesParentsDirectoryMap.put( serverModulesOrgFile, finalZipMainDirectoryStr + "/server/modules/org" );
             }
             if (null != serverModulesComFile && 0 != serverModulesComFile.length()) {
-                filesParentsDirectoryMap.put( serverModulesComFile, "/server/modules/com" );
+                filesParentsDirectoryMap.put( serverModulesComFile, finalZipMainDirectoryStr + "/server/modules/com" );
             }
         }
 
@@ -168,7 +171,7 @@ public class SetupConfiguration {
             try {
                 fis = new FileInputStream( fileToZip );
                 bis = new BufferedInputStream( fis );
-                zos.putNextEntry( new ZipEntry( fileToZip.getName() ) );
+                zos.putNextEntry( new ZipEntry( "BigAppExtract/" + fileToZip.getName() ) );
 
                 int bytesRead;
                 if (content != null) {
