@@ -36,7 +36,7 @@ public class SetupConfiguration {
     }
 
 
-    public static CollectResultDecoZip.ResultZip getSetupConfiguration(File pageDirectory, APISession session, String listLogs, Boolean pullConfActivated) throws java.lang.reflect.InvocationTargetException, java.lang.IllegalAccessException, NoSuchMethodException, IOException, UnknownHostException, BonitaHomeNotSetException, UnknownAPITypeException, ServerAPIException, MonitoringException, UnavailableInformationException {
+    public static CollectResultDecoZip.ResultZip getSetupConfiguration(File pageDirectory, APISession session, String listLogs, Boolean pullConfActivated, String timestamp) throws java.lang.reflect.InvocationTargetException, java.lang.IllegalAccessException, NoSuchMethodException, IOException, UnknownHostException, BonitaHomeNotSetException, UnknownAPITypeException, ServerAPIException, MonitoringException, UnavailableInformationException {
 
         ResultZip finalResultZip = new ResultZip();
 
@@ -81,7 +81,7 @@ public class SetupConfiguration {
         ZipOutputStream zos = new ZipOutputStream( finalResultZip.zipContent );
 
         // Create the files that we want to add into the result file zip
-        String finalZipMainDirectoryStr = "/BigAppExtract";
+        String fzMainDirectoryStr = "/BigAppExtract" + timestamp;
         File setupFile = new File( localBonitaConfig.getRootPath() + "/setup" );
         File serverConfFile = new File( localBonitaConfig.getRootPath() + "/server/conf" );
         File serverBinFile = new File( localBonitaConfig.getRootPath() + "/server/bin" );
@@ -91,25 +91,25 @@ public class SetupConfiguration {
 
         // Create a list with the files we want in the final zip file + The parent directory they're located at
         Map<File, String> filesParentsDirectoryMap = new HashMap<>();
-        filesParentsDirectoryMap.put( setupFile, finalZipMainDirectoryStr + "/setup" );
+        filesParentsDirectoryMap.put( setupFile, fzMainDirectoryStr + "/setup" );
         if (serverTomcat) {
-            filesParentsDirectoryMap.put( serverConfFile, finalZipMainDirectoryStr + "/server/conf" );
-            filesParentsDirectoryMap.put( serverBinFile, finalZipMainDirectoryStr + "/server/bin" );
+            filesParentsDirectoryMap.put( serverConfFile, fzMainDirectoryStr + "/server/conf" );
+            filesParentsDirectoryMap.put( serverBinFile, fzMainDirectoryStr + "/server/bin" );
         } else {
-            filesParentsDirectoryMap.put( serverStandaloneConfFile, finalZipMainDirectoryStr + "/server/standalone/configuration" );
+            filesParentsDirectoryMap.put( serverStandaloneConfFile, fzMainDirectoryStr + "/server/standalone/configuration" );
             if (null != serverModulesOrgFile && 0 != serverModulesOrgFile.length()) {
-                filesParentsDirectoryMap.put( serverModulesOrgFile, finalZipMainDirectoryStr + "/server/modules/org" );
+                filesParentsDirectoryMap.put( serverModulesOrgFile, fzMainDirectoryStr + "/server/modules/org" );
             }
             if (null != serverModulesComFile && 0 != serverModulesComFile.length()) {
-                filesParentsDirectoryMap.put( serverModulesComFile, finalZipMainDirectoryStr + "/server/modules/com" );
+                filesParentsDirectoryMap.put( serverModulesComFile, fzMainDirectoryStr + "/server/modules/com" );
             }
         }
 
         // Adds Environmental information
-        addEnvironmentDetails( zos, session, setupFile );
+        addEnvironmentDetails( zos, session, setupFile, timestamp );
 
         // Adds Log files selected by the user
-        addLogFiles( zos, session, listLogs );
+        addLogFiles( zos, session, listLogs, timestamp );
 
         // When the user checks the "add setupConfiguration" option we call the method that will zip all the files that we have specified in filesParentsDirectoryMap
         if (pullConfActivated) {
@@ -129,17 +129,17 @@ public class SetupConfiguration {
         return finalResultZip;
     }
 
-    private static void addEnvironmentDetails(ZipOutputStream zos, APISession session, File setupFile) throws java.lang.reflect.InvocationTargetException, java.lang.IllegalAccessException, NoSuchMethodException, IOException, UnknownHostException, BonitaHomeNotSetException, UnknownAPITypeException, ServerAPIException, MonitoringException, UnavailableInformationException {
+    private static void addEnvironmentDetails(ZipOutputStream zos, APISession session, File setupFile, String timestamp) throws java.lang.reflect.InvocationTargetException, java.lang.IllegalAccessException, NoSuchMethodException, IOException, UnknownHostException, BonitaHomeNotSetException, UnknownAPITypeException, ServerAPIException, MonitoringException, UnavailableInformationException {
 
         File environmentDetailsCSV = null;
         String content = EnvironmentDetails.getEnvironmentInfosExport( session, setupFile );
         environmentDetailsCSV = new File( "EnvironmentalInformation.csv" );
         environmentDetailsCSV.createNewFile();
-        addFileToZip( zos, environmentDetailsCSV, content );
+        addFileToZip( zos, environmentDetailsCSV, content, timestamp );
 
     }
 
-    private static void addLogFiles(ZipOutputStream zos, APISession session, String strListLogs) throws IOException, UnknownHostException, BonitaHomeNotSetException, UnknownAPITypeException, ServerAPIException, MonitoringException, UnavailableInformationException {
+    private static void addLogFiles(ZipOutputStream zos, APISession session, String strListLogs, String timestamp) throws IOException, UnknownHostException, BonitaHomeNotSetException, UnknownAPITypeException, ServerAPIException, MonitoringException, UnavailableInformationException {
 
         File logFile = null;
         File oldLogFile = null;
@@ -155,11 +155,11 @@ public class SetupConfiguration {
 
         for (int i = 0; i < listLogs.length; i++) {
             oldLogFile = new File( dir + listLogs[i] );
-            addFileToZip( zos, oldLogFile, null );
+            addFileToZip( zos, oldLogFile, null, timestamp );
         }
     }
 
-    private static void addFileToZip(ZipOutputStream zos, File fileToZip, String content) {
+    private static void addFileToZip(ZipOutputStream zos, File fileToZip, String content, String timestamp) {
 
         FileInputStream fis = null;
         BufferedInputStream bis = null;
@@ -171,7 +171,7 @@ public class SetupConfiguration {
             try {
                 fis = new FileInputStream( fileToZip );
                 bis = new BufferedInputStream( fis );
-                zos.putNextEntry( new ZipEntry( "BigAppExtract/" + fileToZip.getName() ) );
+                zos.putNextEntry( new ZipEntry( "BigAppExtract" + timestamp + "/" + fileToZip.getName() ) );
 
                 int bytesRead;
                 if (content != null) {

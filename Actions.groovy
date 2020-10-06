@@ -192,11 +192,12 @@ public class Actions {
 
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
                 LocalDateTime now = LocalDateTime.now();
+                String timestamp = dtf.format(now);
 
-                response.addHeader("content-disposition", "attachment; filename=BigAppExtract" + dtf.format(now) + ".zip");
+                response.addHeader("content-disposition", "attachment; filename=BigAppExtract" + timestamp + ".zip");
                 response.addHeader("content-type", "application/zip");
 
-                CollectResultDecoZip.ResultZip resultZip = SetupConfiguration.getSetupConfiguration(pageDirectory, session, listLogs, pullConfActivated);
+                CollectResultDecoZip.ResultZip resultZip = SetupConfiguration.getSetupConfiguration(pageDirectory, session, listLogs, pullConfActivated, timestamp);
 
                 OutputStream output = response.getOutputStream();
                 resultZip.zipContent.writeTo(output);
