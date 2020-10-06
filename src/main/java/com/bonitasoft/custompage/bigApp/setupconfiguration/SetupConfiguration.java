@@ -81,7 +81,7 @@ public class SetupConfiguration {
         ZipOutputStream zos = new ZipOutputStream( finalResultZip.zipContent );
 
         // Create the files that we want to add into the result file zip
-        String finalZipMainDirectoryStr = "/BigAppConfExtract";
+        String finalZipMainDirectoryStr = "/BigAppExtract";
         File setupFile = new File( localBonitaConfig.getRootPath() + "/setup" );
         File serverConfFile = new File( localBonitaConfig.getRootPath() + "/server/conf" );
         File serverBinFile = new File( localBonitaConfig.getRootPath() + "/server/bin" );
