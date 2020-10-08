@@ -14,9 +14,6 @@ import javax.servlet.http.HttpServlet;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.lang.management.ManagementFactory;
-import java.lang.management.OperatingSystemMXBean;
-import java.lang.reflect.Method;
 import java.net.UnknownHostException;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
@@ -42,18 +39,11 @@ public class EnvironmentDetails extends HttpServlet {
 
         result.put( "javaMachine", platformMonitoringAPI.getJvmName() + " " + platformMonitoringAPI.getJvmVersion() );
 
-        OperatingSystemMXBean operatingSystemMXBean = ManagementFactory.getOperatingSystemMXBean();
-        Method getTotalPhysicalMemorySizeMethod = operatingSystemMXBean.getClass().getMethod("getTotalPhysicalMemorySize", null);
-        getTotalPhysicalMemorySizeMethod.setAccessible(true);
-        Object totalPhysicalMemorySizeValue = getTotalPhysicalMemorySizeMethod.invoke(operatingSystemMXBean);
         DecimalFormat df = new DecimalFormat();
-        df.setMaximumFractionDigits(2);
+        df.setMaximumFractionDigits( 2 );
+        result.put( "MemTotalPhysicalMemory", df.format( (float) platformMonitoringAPI.getTotalPhysicalMemorySize() / (1024L * 1024L * 1024L) ) );
 
-        result.put( "MemTotalPhysicalMemory", df.format(Double.valueOf(totalPhysicalMemorySizeValue.toString()) / (1024 * 1024 * 1024)) );
-
-        df = new DecimalFormat();
-        df.setMaximumFractionDigits(2);
-        result.put( "memoryUsage", df.format( platformMonitoringAPI.getMemoryUsagePercentage()) + " % " );
+        result.put( "memoryUsage", df.format( platformMonitoringAPI.getMemoryUsagePercentage() ) + " % " );
 
         if (catalinaBase != null && StringUtils.containsIgnoreCase( catalinaBase, "Tomcat" )) {
 
@@ -94,6 +84,8 @@ public class EnvironmentDetails extends HttpServlet {
     public static String getEnvironmentInfosExport(APISession session, File setupFile) throws NoSuchMethodException, IllegalAccessException, java.lang.reflect.InvocationTargetException, UnknownHostException, BonitaHomeNotSetException, UnknownAPITypeException, ServerAPIException, MonitoringException, UnavailableInformationException {
 
         String result = "";
+        DecimalFormat df = new DecimalFormat();
+        df.setMaximumFractionDigits( 2 );
 
         PlatformMonitoringAPI platformMonitoringAPI = TenantAPIAccessor.getPlatformMonitoringAPI( session );
 
@@ -101,9 +93,9 @@ public class EnvironmentDetails extends HttpServlet {
 
         result = result.concat( "Parameter;Value;\n" );
 
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern( "yyyy/MM/dd HH:mm:ss" );
         LocalDateTime now = LocalDateTime.now();
-        result = result.concat( "SystemDateUTC;" + dtf.format(now) + ";\n" );
+        result = result.concat( "SystemDateUTC;" + dtf.format( now ) + ";\n" );
 
         result = result.concat( "OperatingSystemInfos;" + platformMonitoringAPI.getOSName() + " - " + platformMonitoringAPI.getOSVersion() + ";\n" );
 
@@ -115,51 +107,31 @@ public class EnvironmentDetails extends HttpServlet {
 
         result = result.concat( "JavaMachine;" + platformMonitoringAPI.getJvmName() + " " + platformMonitoringAPI.getJvmVersion() + ";\n" );
 
-        result = result.concat( "MemoryUsage;" + platformMonitoringAPI.getMemoryUsagePercentage() + " % " + ";\n" );
+        result = result.concat( "MemoryUsage;" + df.format( (float) platformMonitoringAPI.getCurrentMemoryUsage() ) + " " + ";\n" );
 
         result = result.concat( "AvailableProcessors;" + platformMonitoringAPI.getAvailableProcessors() + ";\n" );
 
-        result = result.concat( "MemUsage;" + platformMonitoringAPI.getCurrentMemoryUsage() / 1024 + ";\n" );
+        result = result.concat( "MemUsage;" + platformMonitoringAPI.getCurrentMemoryUsage() / (1024L * 1024L) + " Mb;\n" );
 
-        OperatingSystemMXBean operatingSystemMXBean = ManagementFactory.getOperatingSystemMXBean();
-        Method getFreePhysicalMemorySizeMethod = operatingSystemMXBean.getClass().getMethod("getFreePhysicalMemorySize", null);
-        getFreePhysicalMemorySizeMethod.setAccessible(true);
-        Object freePhysicalMemorySizeValue = getFreePhysicalMemorySizeMethod.invoke(operatingSystemMXBean);
+        result = result.concat( "FreePhysicalMemorySize;" + df.format( (float) platformMonitoringAPI.getFreePhysicalMemorySize() / (1024L * 1024L * 1024L) ) + " Gb;\n" );
 
-        result = result.concat( "FreePhysicalMemorySize;" + freePhysicalMemorySizeValue + ";\n" );
+        result = result.concat( "MemFreeSwap;" + df.format( (float) platformMonitoringAPI.getFreeSwapSpaceSize() / (1024L * 1024L * 1024L) ) + " Gb;\n" );
 
-        operatingSystemMXBean = ManagementFactory.getOperatingSystemMXBean();
-        Method getFreeSwapSpaceSizeMethod = operatingSystemMXBean.getClass().getMethod("getFreeSwapSpaceSize", null);
-        getFreeSwapSpaceSizeMethod.setAccessible(true);
-        Object freeSwapSpaceSizeValue = getFreeSwapSpaceSizeMethod.invoke(operatingSystemMXBean);
+        result = result.concat( "MemTotalPhysicalMemory;" + df.format( (float) platformMonitoringAPI.getTotalPhysicalMemorySize() / (1024L * 1024L * 1024L) ) + " Gb;\n" );
 
-        result = result.concat( "MemFreeSwap;" + freeSwapSpaceSizeValue + ";\n" );
+        result = result.concat( "MemTotalSwapSpace;" + df.format( (float) platformMonitoringAPI.getTotalSwapSpaceSize() / (1024L * 1024L * 1024L) ) + " Gb;\n" );
 
-        operatingSystemMXBean = ManagementFactory.getOperatingSystemMXBean();
-        Method getTotalPhysicalMemorySizeMethod = operatingSystemMXBean.getClass().getMethod("getTotalPhysicalMemorySize", null);
-        getTotalPhysicalMemorySizeMethod.setAccessible(true);
-        Object totalPhysicalMemorySizeValue = getTotalPhysicalMemorySizeMethod.invoke(operatingSystemMXBean);
+        result = result.concat( "JavaFreeMemory;" + Runtime.getRuntime().freeMemory() / 1024 / 1024 + " Mb;\n" );
 
-        result = result.concat( "MemTotalPhysicalMemory;" + totalPhysicalMemorySizeValue + ";\n" );
+        result = result.concat( "JavaTotalMemory;" + Runtime.getRuntime().totalMemory() / 1024 / 1024 + " Mb;\n" );
 
-        operatingSystemMXBean = ManagementFactory.getOperatingSystemMXBean();
-        Method getTotalSwapSpaceSize = operatingSystemMXBean.getClass().getMethod("getTotalSwapSpaceSize", null);
-        getTotalSwapSpaceSize.setAccessible(true);
-        Object totalSwapSpaceSizeValue = getTotalPhysicalMemorySizeMethod.invoke(operatingSystemMXBean);
-
-        result = result.concat( "MemTotalSwapSpace;" + totalSwapSpaceSizeValue + ";\n" );
-
-        result = result.concat( "JavaFreeMemory;" + Runtime.getRuntime().freeMemory() / 1024 / 1024 + ";\n" );
-
-        result = result.concat( "JavaTotalMemory;" + Runtime.getRuntime().totalMemory() / 1024 / 1024 + ";\n" );
-
-        result = result.concat( "JavaUsedMemory;" + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1024 / 1024 + ";\n" );
+        result = result.concat( "JavaUsedMemory;" + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1024 / 1024 + " Mb;\n" );
 
         result = result.concat( "JvmVendor;" + platformMonitoringAPI.getJvmVendor() + ";\n" );
 
         result = result.concat( "JvmVersion;" + platformMonitoringAPI.getJvmVersion() + ";\n" );
 
-        result = result.concat( "MemUsagePercentage;" + platformMonitoringAPI.getMemoryUsagePercentage() + ";\n" );
+        result = result.concat( "MemUsagePercentage;" + df.format( platformMonitoringAPI.getMemoryUsagePercentage() ) + " % ;\n" );
 
         result = result.concat( "NumberActiveTransaction;" + platformMonitoringAPI.getNumberOfActiveTransactions() + ";\n" );
 
@@ -181,13 +153,13 @@ public class EnvironmentDetails extends HttpServlet {
 
         result = result.concat( "IsSchedulerStarted ;" + platformMonitoringAPI.isSchedulerStarted() + ";\n" );
 
+        result = result.concat( "JvmSystemProperties: ;" + " ;\n" );
+
         String jvmSystemProp = "";
-
         for (Map.Entry<String, String> entry : platformMonitoringAPI.getJvmSystemProperties().entrySet()) {
-            jvmSystemProp += entry.getValue();
+            jvmSystemProp = entry.getValue();
+            result = result.concat( entry.getKey() + ";" + jvmSystemProp + ";\n" );
         }
-
-        result = result.concat( "CommitedVirtualMemorySize;" + jvmSystemProp + ";\n" );
 
         return result;
     }
@@ -197,15 +169,15 @@ public class EnvironmentDetails extends HttpServlet {
         String releaseNotesString = "";
         String webServer = "Tomcat";
 
-        FileInputStream fis = new FileInputStream( catalinaBase+"/RELEASE-NOTES");
+        FileInputStream fis = new FileInputStream( catalinaBase + "/RELEASE-NOTES" );
         Scanner sc = new Scanner( fis );    //file to be scanned
 
         //returns true if there is another line to read
-        while (sc.hasNextLine() && !releaseNotesString.contains("Release Notes")) {
+        while (sc.hasNextLine() && !releaseNotesString.contains( "Release Notes" )) {
             releaseNotesString += sc.nextLine();      //returns the line that was skipped
         }
         sc.close();     //closes the scanner
-        if(releaseNotesString!=null && !releaseNotesString.isEmpty()) {
+        if (releaseNotesString != null && !releaseNotesString.isEmpty()) {
             int indexStart = releaseNotesString.lastIndexOf( "Version " );
             int indexEnd = releaseNotesString.indexOf( " Release Notes" );
 
