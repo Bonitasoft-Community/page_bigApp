@@ -37,7 +37,7 @@ public class EnvironmentDetails extends HttpServlet {
 
         result.put( "operatingSystemInfos", platformMonitoringAPI.getOSName() + " - " + platformMonitoringAPI.getOSVersion() );
 
-        result.put( "javaMachine", platformMonitoringAPI.getJvmName() + " " + platformMonitoringAPI.getJvmVersion() );
+        result.put( "javaVersion", platformMonitoringAPI.getJvmSystemProperties().get( "java.version" ) + " (" + platformMonitoringAPI.getJvmSystemProperties().get( "java.vm.name" ) + ")" );
 
         DecimalFormat df = new DecimalFormat();
         df.setMaximumFractionDigits( 2 );
@@ -105,7 +105,7 @@ public class EnvironmentDetails extends HttpServlet {
             result = result.concat( "WebServer;" + "Wildfly" + ";\n" );
         }
 
-        result = result.concat( "JavaMachine;" + platformMonitoringAPI.getJvmName() + " " + platformMonitoringAPI.getJvmVersion() + ";\n" );
+        result = result.concat( "JavaVersion;" + platformMonitoringAPI.getJvmSystemProperties().get( "java.version" ) + " (" + platformMonitoringAPI.getJvmSystemProperties().get( "java.vm.name" ) + ")" + ";\n" );
 
         result = result.concat( "MemoryUsage;" + df.format( (float) platformMonitoringAPI.getCurrentMemoryUsage() ) + " " + ";\n" );
 
