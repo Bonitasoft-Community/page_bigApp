@@ -41,8 +41,14 @@ public class EnvironmentDetails extends HttpServlet {
 
         DecimalFormat df = new DecimalFormat();
         df.setMaximumFractionDigits( 2 );
-        result.put( "MemTotalPhysicalMemory", df.format( (float) platformMonitoringAPI.getTotalPhysicalMemorySize() / (1024L * 1024L * 1024L) ) );
 
+        try {
+            result.put( "MemTotalPhysicalMemory", df.format( (float) platformMonitoringAPI.getTotalPhysicalMemorySize() / (1024L * 1024L * 1024L) ) + "Gb" );
+        } catch (UnavailableInformationException eun) {
+
+        } finally {
+            result.put( "MemTotalPhysicalMemory", " - " );
+        }
         result.put( "memoryUsage", df.format( platformMonitoringAPI.getMemoryUsagePercentage() ) + " % " );
 
         if (catalinaBase != null && StringUtils.containsIgnoreCase( catalinaBase, "Tomcat" )) {
@@ -113,13 +119,30 @@ public class EnvironmentDetails extends HttpServlet {
 
         result = result.concat( "MemUsage;" + platformMonitoringAPI.getCurrentMemoryUsage() / (1024L * 1024L) + " Mb;\n" );
 
-        result = result.concat( "FreePhysicalMemorySize;" + df.format( (float) platformMonitoringAPI.getFreePhysicalMemorySize() / (1024L * 1024L * 1024L) ) + " Gb;\n" );
-
-        result = result.concat( "MemFreeSwap;" + df.format( (float) platformMonitoringAPI.getFreeSwapSpaceSize() / (1024L * 1024L * 1024L) ) + " Gb;\n" );
-
-        result = result.concat( "MemTotalPhysicalMemory;" + df.format( (float) platformMonitoringAPI.getTotalPhysicalMemorySize() / (1024L * 1024L * 1024L) ) + " Gb;\n" );
-
-        result = result.concat( "MemTotalSwapSpace;" + df.format( (float) platformMonitoringAPI.getTotalSwapSpaceSize() / (1024L * 1024L * 1024L) ) + " Gb;\n" );
+        try {
+            result = result.concat( "FreePhysicalMemorySize;" + df.format( (float) platformMonitoringAPI.getFreePhysicalMemorySize() / (1024L * 1024L * 1024L) ) + " Gb;\n" );
+        } catch (UnavailableInformationException eun) {
+        } finally {
+            result = result.concat( "FreePhysicalMemorySize;" + "Unavailable ;\n" );
+        }
+        try {
+            result = result.concat( "MemFreeSwap;" + df.format( (float) platformMonitoringAPI.getFreeSwapSpaceSize() / (1024L * 1024L * 1024L) ) + " Gb;\n" );
+        } catch (UnavailableInformationException eun) {
+        } finally {
+            result = result.concat( "MemFreeSwap;" + "Unavailable ;\n" );
+        }
+        try {
+            result = result.concat( "MemTotalPhysicalMemory;" + df.format( (float) platformMonitoringAPI.getTotalPhysicalMemorySize() / (1024L * 1024L * 1024L) ) + " Gb;\n" );
+        } catch (UnavailableInformationException eun) {
+        } finally {
+            result = result.concat( "MemTotalPhysicalMemory;" + "Unavailable ;\n" );
+        }
+        try {
+            result = result.concat( "MemTotalSwapSpace;" + df.format( (float) platformMonitoringAPI.getTotalSwapSpaceSize() / (1024L * 1024L * 1024L) ) + " Gb;\n" );
+        } catch (UnavailableInformationException eun) {
+        } finally {
+            result = result.concat( "MemTotalSwapSpace;" + "Unavailable ;\n" );
+        }
 
         result = result.concat( "JavaFreeMemory;" + Runtime.getRuntime().freeMemory() / 1024 / 1024 + " Mb;\n" );
 
