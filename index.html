@@ -9,17 +9,17 @@
 <html class="no-js">
 <!--<![endif]-->
 <head>
-<meta charset="utf-8">
-<title>BigApp</title>
-<meta name="description" content="">
-<meta name="viewport" content="width=device-width">
-<link rel="stylesheet" href="style/animate.css" />
-<link rel="stylesheet" href="style/bootstrap.min.css">
-<link rel="stylesheet" href="style/style.css">
-<link rel="stylesheet" href="style/main.css">
-<link rel="stylesheet" href="style/style.css">
+    <meta charset="utf-8">
+    <title>BigApp</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="style/animate.css"/>
+    <link rel="stylesheet" href="style/bootstrap.min.css">
+    <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="style/main.css">
+    <link rel="stylesheet" href="style/style.css">
 
-	<!--<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <!--<script type="text/javascript" src="https://www.google.com/jsapi"></script>
         <script type="text/javascript" src="https://www.google.com/uds/?file=visualization&amp;v=1&amp;hl=fr&amp;packages=corechart&amp;async=2"></script>
         <link type="text/css" href="https://www.google.com/uds/api/visualization/1.0/ff67c3772da186a412ae3231c32409e9/ui+fr.css" rel="stylesheet">-->
 
@@ -40,150 +40,174 @@
     .AutocompleteDropDown {
         background-color: #fcf8e3;
     }
+
+
+
     </style>
-    </head>
-    <body ng-app="bigapp">
+</head>
+<body ng-app="bigapp">
 
-        <!--  Page Directory: @_PAGEDIRECTORY_@ -->
+<!--  Page Directory: @_PAGEDIRECTORY_@ -->
 
-	<div class="col-lg-12" class="bs-component" ng-controller="BigAppControler as ctrl">
-		<center>
-			<table>
-				<tr>
-					<td><h1>BigApp</h1></td>
-					<td rowspan="2"><img src="img/bigapp.jpg?" width="150" heigth="150" /></td>
-				</tr>
-				<tr>
-					<td style="font-size: 0.8em"><strong><u>V1.2.1</u></strong></td>
-				</tr>
-				<tr>
-					<td>
-						<div id="showHistory" ng-show="bigappctrl.isshowhistory" style="border-width: 2px; border-style: ridge; border-color: blue">
-							1.0 First version<br> 1.1 New request to detect the missing timer<br> 2.0 Execute Groovy script 2.2 Add SQL parameters in Groovy Script
-						</div>
-					</td>
-				</tr>
-			</table>
-		</center>
-		<br/>
-		<!--<ul class="nav nav-tabs" ng-class="{'nav-stacked': vertical, 'nav-justified': justified}" ng-transclude>
+<div class="col-lg-12" class="bs-component" ng-controller="BigAppControler as ctrl">
+    <center>
+        <table>
+            <tr>
+                <td><h1>BigApp</h1></td>
+                <td rowspan="2"><img src="img/bigapp.jpg?" width="150" heigth="150"/></td>
+            </tr>
+            <tr>
+                <td style="font-size: 0.8em"><strong><u>V1.2.1</u></strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <div id="showHistory" ng-show="bigappctrl.isshowhistory"
+                         style="border-width: 2px; border-style: ridge; border-color: blue">
+                        1.0 First version<br> 1.1 New request to detect the missing timer<br> 2.0 Execute Groovy script
+                        2.2 Add SQL parameters in Groovy Script
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </center>
+    <br/>
+    <!--<ul class="nav nav-tabs" ng-class="{'nav-stacked': vertical, 'nav-justified': justified}" ng-transclude>
 
-			<li ng-class="{active: active, disabled: false" id="form-tab" heading="All" active="true" title="Environment" select="ctrl.navbaractiv == 'environment'" class="{{ctrl.getNavClass('environment')}}"
-				style=""><a ng-click="ctrl.navbaractiv = 'environment';" tab-heading-transclude="" class="ng-binding">Environment</a></li>
-		</ul>-->
+        <li ng-class="{active: active, disabled: false" id="form-tab" heading="All" active="true" title="Environment" select="ctrl.navbaractiv == 'environment'" class="{{ctrl.getNavClass('environment')}}"
+            style=""><a ng-click="ctrl.navbaractiv = 'environment';" tab-heading-transclude="" class="ng-binding">Environment</a></li>
+    </ul>-->
 
-		<!--  ************************************************************  -->
-		<!--  Tab Environment		 										-->
-		<!--  ************************************************************  -->
-		<center>
-		<div class="col-lg-12">
-			<div class="col-lg-4">
-			</div>
-			<div class="col-lg-4">
-				<div class="panel panel-custom">
-					<div class="panel-heading"><strong>Environmental information</strong></div>
-					<div class="panel-body">
-						<table>
-							<tr>
-								<td>Operating system</td>
-								<td><center>{{ctrl.environment.operatingSystemInfos}}</center></td>
-							</tr>
-							<tr>
-								<td>Server</td>
-								<td><center>{{ctrl.environment.WebServer}}</center></td>
-							</tr>
-							<tr>
-								<td>Java machine</td>
-								<td><center>{{ctrl.environment.javaMachine}}</center></td>
-							</tr>
-							<tr>
-								<td>Total physical memory</td>
-								<td><center>{{ctrl.environment.MemTotalPhysicalMemory}} Gb</center></td>
-							</tr>
-							<tr>
-								<td>Memory usage</td>
-								<td><center>{{ctrl.environment.memoryUsage}}</center></td>
-							</tr>
-						</table>
-					</div>
-				</div>
-			</div>
-		</div>
-		</center>
-		<center>
-			<div class="col-lg-12">
-				<div class="col-lg-3">
-				</div>
-				<div class="col-lg-6">
-				<div class="panel panel-custom">
-					<div class="panel-heading"><strong>Log files</strong></div>
-					<div class="panel-body">
-						<table  class="table table-striped table-bordered" style="width:100%">
-							<center>
-								<!--
-									<td width="40%"  onclick="if ( this.style.backgroundColor=='' && this.style.color=='' ) { this.style.backgroundColor='#DD0033'; this.style.color='#F9F9F9'; } else { if( this.style.backgroundColor=='rgb(221, 0, 51)' && this.style.color=='rgb(249, 249, 249)' ) { this.style.backgroundColor='#F9F9F9'; this.style.color='#2C3E50'; } else { this.style.backgroundColor='#DD0033'; this.style.color='#F9F9F9'; } }" ng-model="mapFile.selected" align="center" ng-click="count = !count; ctrl.setListLogs(mapFile.name,count)">
-									{{mapFile.name}}
-								</td>-->
+    <!--  ************************************************************  -->
+    <!--  Tab Environment		 										-->
+    <!--  ************************************************************  -->
+    <center>
+        <div class="col-lg-12">
+            <div class="col-lg-4">
+            </div>
+            <div class="col-lg-4">
+                <div class="panel panel-custom">
+                    <div class="panel-heading"><strong>Environmental information</strong></div>
+                    <div class="panel-body">
+                        <table>
+                            <tr>
+                                <td>Operating system</td>
+                                <td>
+                                    <center>{{ctrl.environment.operatingSystemInfos}}</center>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Server</td>
+                                <td>
+                                    <center>{{ctrl.environment.WebServer}}</center>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Java version</td>
+                                <td>
+                                    <center>{{ctrl.environment.javaVersion}}</center>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Total physical memory</td>
+                                <td>
+                                    <center>{{ctrl.environment.MemTotalPhysicalMemory}}</center>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Memory usage</td>
+                                <td>
+                                    <center>{{ctrl.environment.memoryUsage}}</center>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </center>
+    <center>
+        <div class="col-lg-12">
+            <div class="col-lg-3">
+            </div>
+            <div class="col-lg-6">
+                <div class="panel panel-custom">
+                    <div class="panel-heading"><strong>Log files</strong></div>
+                    <div class="panel-body">
+                        <table class="table table-striped table-bordered" style="width:100%">
+                            <center>
+                                <!--
+                                    <td width="40%"  onclick="if ( this.style.backgroundColor=='' && this.style.color=='' ) { this.style.backgroundColor='#DD0033'; this.style.color='#F9F9F9'; } else { if( this.style.backgroundColor=='rgb(221, 0, 51)' && this.style.color=='rgb(249, 249, 249)' ) { this.style.backgroundColor='#F9F9F9'; this.style.color='#2C3E50'; } else { this.style.backgroundColor='#DD0033'; this.style.color='#F9F9F9'; } }" ng-model="mapFile.selected" align="center" ng-click="count = !count; ctrl.setListLogs(mapFile.name,count)">
+                                    {{mapFile.name}}
+                                </td>-->
 
-								<tr ng-repeat="mapFile in ctrl.getLogsPage()">
-									<td width="30%"></td>
-									<td width="40%" align="center" ng-click="mapFile.selected=!mapFile.selected; mapFile.selected=ctrl.setListLogs(mapFile.name, mapFile.selected)"
-										style="{{ ctrl.getLogStyle(mapFile.name, mapFile.selected) }}">
-											{{mapFile.name}}
-									</td>
+                                <tr ng-repeat="mapFile in ctrl.getLogsPage()">
+                                    <td width="30%"></td>
+                                    <td width="40%" align="center"
+                                        ng-click="mapFile.selected=!mapFile.selected; mapFile.selected=ctrl.setListLogs(mapFile.name, mapFile.selected)"
+                                        style="{{ ctrl.getLogStyle(mapFile.name, mapFile.selected) }}">
+                                        {{mapFile.name}}
+                                    </td>
 
-									<td width="30%"></td>
-								</tr>
-							</center>
-						</table>
+                                    <td width="30%"></td>
+                                </tr>
+                            </center>
+                        </table>
 
-							<pagination ng-show="true" ng-model="ctrl.logPagination.pageNumber" total-items="ctrl.logPagination.totalItems" items-per-page="ctrl.logPagination.itemsPerPage">
-							</pagination><br/>
-						<center>
-							<input ng-model="mapFile.selected" type="checkbox" ng-init="mapFile.selected=true" ng-change="ctrl.pullConfActivated=!ctrl.pullConfActivated" onchange="{{ ctrl.pullConfActivated = ( mapFile.selected == '' ) ? !ctrl.pullConfActivated : ( mapFile.selected == 'false' ) ? false : true ; ctrl.getCheckboxValue(mapFile.selected) }}" /><b> Include configuration files</b> <br/><br/>
-							<a  class="btn btn-primary" href="?page=custompage_bigapp&action=getSetupConfiguration&listLogs={{ctrl.listLogFiles.toString()}}&pullConfActivated={{ ctrl.pullConfActivated }}&t={{ctrl.currentTime}}">Download Files</a>
-						</center>
-					</div>
-				</div>
-				</div>
-				<div class="col-lg-3">
-				</div>
-			</div>
+                        <pagination ng-show="true" ng-model="ctrl.logPagination.pageNumber"
+                                    total-items="ctrl.logPagination.totalItems"
+                                    items-per-page="ctrl.logPagination.itemsPerPage">
+                        </pagination>
+                        <br/>
+                        <center>
+                            <input ng-model="mapFile.selected" type="checkbox" ng-init="mapFile.selected=true"
+                                   ng-change="ctrl.pullConfActivated=!ctrl.pullConfActivated"
+                                   onchange="{{ ctrl.pullConfActivated = ( mapFile.selected == '' ) ? !ctrl.pullConfActivated : ( mapFile.selected == 'false' ) ? false : true ; ctrl.getCheckboxValue(mapFile.selected) }}"/><b>
+                            Include configuration files</b> <br/><br/>
+                            <a class="btn btn-primary"
+                               href="?page=custompage_bigapp&action=getSetupConfiguration&listLogs={{ctrl.listLogFiles.toString()}}&pullConfActivated={{ ctrl.pullConfActivated }}&t={{ctrl.currentTime}}">Download
+                                Files</a>
+                        </center>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+            </div>
+        </div>
 
 
-		</center>
-			<!-- div class="col-lg-4">
-				<div class="panel panel-custom">
-					<div class="panel-heading">Setup Configuration</div>
-					<div class="panel-body">
-						<center><button ng-click="ctrl.setPullFunc(); showVar = true" ng-init="showVar=false" class="btn btn-primary">Pull</button></center><br/> <!-- alert('Setup Pull was done successfully!') -->
-		<!-- <center>
-							<div ng-show="showVar"><span class="glyphicon glyphicon-ok-sign text-success"></span>&nbsp;&nbsp;Setup Pull was done successfully!</div>
-							</center>
-					</div>
+    </center>
+    <!-- div class="col-lg-4">
+        <div class="panel panel-custom">
+            <div class="panel-heading">Setup Configuration</div>
+            <div class="panel-body">
+                <center><button ng-click="ctrl.setPullFunc(); showVar = true" ng-init="showVar=false" class="btn btn-primary">Pull</button></center><br/> <!-- alert('Setup Pull was done successfully!') -->
+    <!-- <center>
+                        <div ng-show="showVar"><span class="glyphicon glyphicon-ok-sign text-success"></span>&nbsp;&nbsp;Setup Pull was done successfully!</div>
+                        </center>
+                </div>
 
-				</div>
-			</div> -->
+            </div>
+        </div> -->
 
-		</div>
-		<!--  end tab environment -->
+</div>
+<!--  end tab environment -->
 
-	<!-- Third party dependencies -->
+<!-- Third party dependencies -->
 
-	<script src="3rd-party/jquery.min.js"></script>
+<script src="3rd-party/jquery.min.js"></script>
 
-	<script src="3rd-party/angular.min.js"></script>
+<script src="3rd-party/angular.min.js"></script>
 
-	<script src="3rd-party/angular-resource.min.js"></script>
-	<script src="3rd-party/angular-cookies.min.js"></script>
+<script src="3rd-party/angular-resource.min.js"></script>
+<script src="3rd-party/angular-cookies.min.js"></script>
 
-	<script src="3rd-party/bootstrap/js/bootstrap.min.js"></script>
-	<script src="3rd-party/angular-bootstrap-tpls.min.js"></script>
-	<script src="3rd-party/angular-sanitize.min.js"></script>
+<script src="3rd-party/bootstrap/js/bootstrap.min.js"></script>
+<script src="3rd-party/angular-bootstrap-tpls.min.js"></script>
+<script src="3rd-party/angular-sanitize.min.js"></script>
 
-	<script src="bigAppMonitor.js?v=@_CURRENTTIMEMILIS_@"></script>
+<script src="bigAppMonitor.js?v=@_CURRENTTIMEMILIS_@"></script>
 
-	<!-- Application dependencies -->
-	</center>
+<!-- Application dependencies -->
+</center>
 </body>
 </html>
