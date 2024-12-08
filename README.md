@@ -1,5 +1,6 @@
 # Bonita Information Gathering Application (BigApp)
 
+![Bonita BPM](https://img.shields.io/badge/Bonita-BPM-blue?style=for-the-badge&logo=bonita)
 
 ## What BigApp does?
 
@@ -17,19 +18,28 @@ When the checkbox is enabled a "setup.[sh|bat] pull" is performed so the configu
 
 * Download Files:
 As its name indicates, this button is responsible for generating and downloading a zip file containing all the files needed to troubleshoot issues on the product.
-
+ 
 ## How to install BigApp on your server?
 
-1) Download the latest version of bigApp from the Release tab;
+1. Download the latest version of BigApp from the [Releases tab](https://github.com/Bonitasoft-Community/page_bigApp/releases).
+2. Log in as Administrator in Bonita.
+3. Go to **Resources**, click **Add**, and import `custompage_bigapp.zip`.
+4. Download the application descriptor file [here](https://raw.githubusercontent.com/Bonitasoft-Community/page_bigApp/master/BigAppApplicationDescriptorFile.xml) and save it.
+5. Go to **Applications**, click **Import**, and select the saved `.xml` file.
+6. Access the app via: `../bonita/apps/bigApp/BonitaGatheringApp/`
 
-2) Log in as Administrator
+---
 
-3) Go to "Resources" then Click on "Add" on the left of the page ;
+## 🛡️ License
 
-4) Import "custompage_bigapp.zip" then click on "Next" and then "Confirm" ;
+Distributed under the **GPL-3.0 License**. See [LICENSE](./LICENSE) for more details.
 
-5) Download the applicationDescriptorFile of BigApp by right-click [here](https://raw.githubusercontent.com/Bonitasoft-Community/page_bigApp/master/BigAppApplicationDescriptorFile.xml) and select the "Save content as..." ;
+---
 
-6) Go to "Applications", click on "Import" and select the .xml file saved on the last step ;
+## ❤️ Contribute
 
-7) Finally, access the newly application using the URL "../bonita/apps/bigApp/BonitaGatheringApp/"
+1. Fork the project.
+2. Create your feature branch (`git checkout -b feature/awesome-feature`).
+3. Commit your changes (`git commit -m 'Add an awesome feature'`).
+4. Push to the branch (`git push origin feature/awesome-feature`).
+5. Open a Pull Request.
