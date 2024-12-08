@@ -1,6 +1,6 @@
 # Bonita Information Gathering Application (BigApp)
 
-![Bonita BPM](https://img.shields.io/badge/Bonita-BPM-blue?style=for-the-badge&logo=bonita)
+![Bonita BPM](https://img.shields.io/badge/Bonita-BPM-blue&logo=bonita) ![version](https://img.shields.io/badge/version-1.2.2-blue)  ![Issues](https://img.shields.io/github/issues/Bonitasoft-Community/page_bigApp)  ![Pull Requests](https://img.shields.io/github/issues-pr/Bonitasoft-Community/page_bigApp)  
 
 ## What BigApp does?
 
@@ -28,14 +28,6 @@ As its name indicates, this button is responsible for generating and downloading
 5. Go to **Applications**, click **Import**, and select the saved `.xml` file.
 6. Access the app via: `../bonita/apps/bigApp/BonitaGatheringApp/`
 
----
-
-## License
-
-Distributed under the **GPL-3.0 License**. See [LICENSE](./LICENSE) for more details.
-
----
-
 ## Contribute
 
 1. Fork the project.
@@ -43,3 +35,10 @@ Distributed under the **GPL-3.0 License**. See [LICENSE](./LICENSE) for more det
 3. Commit your changes (`git commit -m 'Add an awesome feature'`).
 4. Push to the branch (`git push origin feature/awesome-feature`).
 5. Open a Pull Request.
+
+
+## License
+
+[![Licence](https://img.shields.io/badge/License-GPL%203.0-blue)](./LICENSE)
+
+Distributed under the **GPL-3.0 License**. See [LICENSE](./LICENSE) for more details.
