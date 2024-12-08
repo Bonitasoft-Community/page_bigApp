@@ -7,7 +7,7 @@
 	<name>CustomPageBigApp</name>
 
 	<properties>
-		<bonita.version>7.10.4</bonita.version>
+		<bonita.version>10.2.0</bonita.version>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<maven.compiler.source>1.8</maven.compiler.source>
 	</properties>
