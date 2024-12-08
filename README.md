@@ -30,13 +30,13 @@ As its name indicates, this button is responsible for generating and downloading
 
 ---
 
-## 🛡️ License
+## License
 
 Distributed under the **GPL-3.0 License**. See [LICENSE](./LICENSE) for more details.
 
 ---
 
-## ❤️ Contribute
+## Contribute
 
 1. Fork the project.
 2. Create your feature branch (`git checkout -b feature/awesome-feature`).
